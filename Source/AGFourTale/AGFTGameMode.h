@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,7 +9,7 @@ class AAGFTGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-public:
+private:
 	AAGFTGameMode();
 };
 
