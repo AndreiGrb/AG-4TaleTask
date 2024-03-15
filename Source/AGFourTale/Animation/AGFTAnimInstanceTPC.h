@@ -45,6 +45,9 @@ private:
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bShouldMove = false;
+
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bCanEnterJumpFromFalling;
 #pragma endregion
 };
 
