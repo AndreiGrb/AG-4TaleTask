@@ -30,6 +30,9 @@ private:
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
+
+
+	float MoveThreshold = 0.f;
 #pragma endregion
 	
 	virtual void Update(float DeltaSeconds) override;
@@ -68,4 +71,8 @@ private:
 	TObjectPtr<ACharacter> CharacterOwner;
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCharacterMovementComponent> MovementComponent;
+
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float MoveThreshold = 3.f;
 };
