@@ -8,10 +8,5 @@ UCLASS(minimalapi)
 class AAGFTGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-
-private:
-	AAGFTGameMode();
+	
 };
-
-
-
