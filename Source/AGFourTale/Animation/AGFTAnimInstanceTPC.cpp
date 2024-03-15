@@ -10,6 +10,7 @@ void UAGFTAnimInstanceTPC::NativeInitializeAnimation()
 	if (auto Character = Cast<ACharacter>(GetOwningActor()))
 	{
 		CharacterOwner = Character;
+		MovementComponent = Character->GetCharacterMovement();
 	}
 }
 

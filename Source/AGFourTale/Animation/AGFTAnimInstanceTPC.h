@@ -55,4 +55,6 @@ private:
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ACharacter> CharacterOwner;
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCharacterMovementComponent> MovementComponent;
 };
