@@ -26,12 +26,11 @@ private:
 	FVector Velocity = FVector::ZeroVector;
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FVector CurrentAcceleration = FVector::ZeroVector;
-
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
 
 
+	FVector CurrentAcceleration = FVector::ZeroVector;
+	
 	float MoveThreshold = 0.f;
 #pragma endregion
 	
