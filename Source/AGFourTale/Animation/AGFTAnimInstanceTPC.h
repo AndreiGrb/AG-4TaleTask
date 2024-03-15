@@ -22,7 +22,14 @@ private:
 	void UpdateValuesFromAnimInstance(const class UAGFTAnimInstanceTPC* InAnimInstance);
 
 #pragma region PreUpdate variables (directly from AnimInstance)
-	
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector Velocity = FVector::ZeroVector;
+
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector CurrentAcceleration = FVector::ZeroVector;
+
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bIsFalling = false;
 #pragma endregion
 	
 	virtual void Update(float DeltaSeconds) override;
@@ -31,7 +38,11 @@ private:
 	bool bShouldUpdate = true;
 
 #pragma region Update variables (in anim thread)
-	
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float GroundSpeed = 0.f;
+
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bShouldMove = false;
 #pragma endregion
 };
 

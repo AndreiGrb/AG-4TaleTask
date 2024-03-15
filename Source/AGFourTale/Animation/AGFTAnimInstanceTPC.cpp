@@ -1,6 +1,7 @@
 ﻿#include "AGFTAnimInstanceTPC.h"
 
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 void UAGFTAnimInstanceTPC::NativeInitializeAnimation()
@@ -33,6 +34,9 @@ void FAGFTAnimInstanceTPC_Proxy::PreUpdate(UAnimInstance* InAnimInstance, float 
 
 void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimInstanceTPC* InAnimInstance)
 {
+	Velocity = InAnimInstance->MovementComponent->Velocity;
+	CurrentAcceleration = InAnimInstance->MovementComponent->GetCurrentAcceleration();
+	bIsFalling = InAnimInstance->MovementComponent->IsFalling();
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
@@ -48,4 +52,7 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 	{
 		return;
 	}
+
+	GroundSpeed = Velocity.Size2D();
+	bShouldMove = GroundSpeed > 3.f && CurrentAcceleration.Equals(FVector::ZeroVector, 0.f);
 }
