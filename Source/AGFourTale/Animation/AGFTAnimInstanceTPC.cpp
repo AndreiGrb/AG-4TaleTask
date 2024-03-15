@@ -55,5 +55,5 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 	}
 
 	GroundSpeed = Velocity.Size2D();
-	bShouldMove = GroundSpeed > MoveThreshold && CurrentAcceleration.Equals(FVector::ZeroVector, 0.f);
+	bShouldMove = GroundSpeed > MoveThreshold && !CurrentAcceleration.Equals(FVector::ZeroVector, 0.f);
 }
