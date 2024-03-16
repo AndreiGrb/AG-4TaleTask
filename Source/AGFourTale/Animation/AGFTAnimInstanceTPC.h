@@ -30,9 +30,7 @@ private:
 
 
 	FVector CurrentAcceleration = FVector::ZeroVector;
-	
 	float MoveThreshold = 0.f;
-
 	float FallVelocityThreshold = 0.f;
 #pragma endregion
 	
