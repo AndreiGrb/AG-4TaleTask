@@ -26,7 +26,6 @@ private:
 	AAGFTCharacter();
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-	virtual void BeginPlay() override;
 
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera)
