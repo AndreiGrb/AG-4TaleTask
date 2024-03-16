@@ -27,12 +27,17 @@ private:
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float CharacterPitch = 0.f;
 
 
 	FVector CurrentAcceleration = FVector::ZeroVector;
 	float MoveThreshold = 0.f;
 	float FallVelocityThreshold = 0.f;
+	
 	FRotator BaseActorRotation = FRotator::ZeroRotator;
+	FRotator BaseAimRotation = FRotator::ZeroRotator;
 #pragma endregion
 	
 	virtual void Update(float DeltaSeconds) override;
@@ -52,6 +57,9 @@ private:
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float MoveDirection = 0.f;
+
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float CharacterYaw = 0.f;
 #pragma endregion
 };
 

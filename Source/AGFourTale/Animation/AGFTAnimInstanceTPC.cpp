@@ -43,6 +43,8 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	FallVelocityThreshold = InAnimInstance->FallVelocityThreshold;
 
 	BaseActorRotation = InAnimInstance->CharacterOwner->GetActorRotation();
+	BaseAimRotation = InAnimInstance->CharacterOwner->GetBaseAimRotation();
+	CharacterPitch = BaseAimRotation.Pitch;
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
@@ -65,4 +67,18 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 	bCanEnterJumpFromFalling = bIsFalling && Velocity.Z > FallVelocityThreshold;
 	
 	MoveDirection = UKismetAnimationLibrary::CalculateDirection(Velocity, BaseActorRotation);
+
+#pragma region CharacterYaw calculation
+	const FVector AimForwardVector = FRotator(0.f, BaseAimRotation.Yaw, 0.f).Vector();
+	const FVector CharacterForwardVector = BaseActorRotation.Vector();
+	const FVector CharacterRightVector = FRotationMatrix(BaseActorRotation).GetScaledAxis(EAxis::Y);
+
+	const float AimCharacterDot = FVector::DotProduct(AimForwardVector, CharacterForwardVector);
+	const float CharacterYawNoSign = FMath::GetMappedRangeValueClamped(FVector2d(1.f, 0.f),
+																		FVector2d(0.f, 90.f),
+																		AimCharacterDot);
+	
+	const bool bNegativeSign = FVector::DotProduct(AimForwardVector, CharacterRightVector) < 0.f;
+	CharacterYaw = CharacterYawNoSign * (bNegativeSign ? -1.f : 1.f);
+#pragma endregion
 }
