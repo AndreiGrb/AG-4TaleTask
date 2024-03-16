@@ -24,9 +24,6 @@ private:
 #pragma region PreUpdate variables (directly from AnimInstance)
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
-	
-	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	float CharacterPitch = 0.f;
 
 	FVector Velocity = FVector::ZeroVector;
 	FVector CurrentAcceleration = FVector::ZeroVector;
@@ -34,7 +31,8 @@ private:
 	float FallVelocityThreshold = 0.f;
 	
 	FRotator BaseActorRotation = FRotator::ZeroRotator;
-	FRotator BaseAimRotation = FRotator::ZeroRotator;
+	float BaseYawAim = 0.f;
+	float PitchAim = 0.f;
 #pragma endregion
 	
 	virtual void Update(float DeltaSeconds) override;
@@ -56,7 +54,7 @@ private:
 	float MoveDirection = 0.f;
 
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	float CharacterYaw = 0.f;
+	FRotator AimRotation = FRotator::ZeroRotator;
 #pragma endregion
 };
 

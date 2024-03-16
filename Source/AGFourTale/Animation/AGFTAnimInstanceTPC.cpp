@@ -45,9 +45,8 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 
 	BaseActorRotation = InAnimInstance->CharacterOwner->GetActorRotation();
 
-	CharacterPitch = FAGFTUtils::GetReplicatedPitchValue(InAnimInstance->CharacterOwner);
-	const float BaseAimYaw = FAGFTUtils::GetReplicatedYawValue(InAnimInstance->CharacterOwner);
-	BaseAimRotation = FRotator(CharacterPitch, BaseAimYaw, 0.f);
+	PitchAim = FAGFTUtils::GetReplicatedPitchValue(InAnimInstance->CharacterOwner);
+	BaseYawAim = FAGFTUtils::GetReplicatedYawValue(InAnimInstance->CharacterOwner);
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
@@ -71,8 +70,8 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 	
 	MoveDirection = UKismetAnimationLibrary::CalculateDirection(Velocity, BaseActorRotation);
 
-#pragma region CharacterYaw calculation
-	const FVector AimForwardVector = FRotator(0.f, BaseAimRotation.Yaw, 0.f).Vector();
+#pragma region YawAim calculation
+	const FVector AimForwardVector = FRotator(0.f, BaseYawAim, 0.f).Vector();
 	const FVector CharacterForwardVector = BaseActorRotation.Vector();
 	const FVector CharacterRightVector = FRotationMatrix(BaseActorRotation).GetScaledAxis(EAxis::Y);
 
@@ -82,6 +81,8 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 																		AimCharacterDot);
 	
 	const bool bNegativeSign = FVector::DotProduct(AimForwardVector, CharacterRightVector) < 0.f;
-	CharacterYaw = CharacterYawNoSign * (bNegativeSign ? -1.f : 1.f);
+	const float YawAim = CharacterYawNoSign * (bNegativeSign ? -1.f : 1.f);
 #pragma endregion
+
+	AimRotation = FRotator(PitchAim, YawAim, 0.f);
 }
