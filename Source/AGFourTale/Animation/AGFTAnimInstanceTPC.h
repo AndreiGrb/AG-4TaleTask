@@ -23,15 +23,12 @@ private:
 
 #pragma region PreUpdate variables (directly from AnimInstance)
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	FVector Velocity = FVector::ZeroVector;
-
-	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
 	
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float CharacterPitch = 0.f;
 
-
+	FVector Velocity = FVector::ZeroVector;
 	FVector CurrentAcceleration = FVector::ZeroVector;
 	float MoveThreshold = 0.f;
 	float FallVelocityThreshold = 0.f;
