@@ -27,6 +27,10 @@ private:
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
+
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	TObjectPtr<USpringArmComponent> CameraBoom;
@@ -50,5 +54,10 @@ private:
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+
+public:
+	//copy of RemoteViewPitch, but for Yaw
+	UPROPERTY(Replicated)
+	uint8 RemoteViewYaw; //todo: should also add APlayerController::EndPlayingState() like for Pitch
 };
 

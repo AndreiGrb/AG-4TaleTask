@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogCharacter);
 
@@ -62,6 +63,24 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		}
 	}
 	
+}
+
+void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(AAGFTCharacter, RemoteViewYaw, COND_SkipOwner);
+}
+
+void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)
+{
+	Super::PreReplication(ChangedPropertyTracker);
+
+	if (GetLocalRole() == ROLE_Authority && GetController())
+	{
+		// Compress yaw to 1 byte
+		RemoteViewYaw = FRotator::CompressAxisToByte(GetController()->GetControlRotation().Yaw);
+	}
 }
 
 void AAGFTCharacter::Move(const FInputActionValue& Value)

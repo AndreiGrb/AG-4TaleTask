@@ -44,8 +44,10 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	FallVelocityThreshold = InAnimInstance->FallVelocityThreshold;
 
 	BaseActorRotation = InAnimInstance->CharacterOwner->GetActorRotation();
-	BaseAimRotation = InAnimInstance->CharacterOwner->GetBaseAimRotation();
+
 	CharacterPitch = FAGFTUtils::GetReplicatedPitchValue(InAnimInstance->CharacterOwner);
+	const float BaseAimYaw = FAGFTUtils::GetReplicatedYawValue(InAnimInstance->CharacterOwner);
+	BaseAimRotation = FRotator(CharacterPitch, BaseAimYaw, 0.f);
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
