@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "AGFTCharacter.generated.h"
@@ -14,7 +15,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogCharacter, Log, All);
 
 UCLASS(config=Game)
-class AAGFTCharacter : public ACharacter
+class AAGFTCharacter : public ACharacter, public IAGFTPawnInterface
 {
 	GENERATED_BODY()
 	
@@ -30,6 +31,8 @@ private:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
+
+	FORCEINLINE virtual float GetRemoteViewYaw() const override { return RemoteViewYaw; }
 
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera)
@@ -55,7 +58,7 @@ private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 
-public:
+	
 	//copy of RemoteViewPitch, but for Yaw
 	UPROPERTY(Replicated)
 	uint8 RemoteViewYaw; //todo: should also add APlayerController::EndPlayingState() like for Pitch

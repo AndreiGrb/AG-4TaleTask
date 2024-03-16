@@ -1,6 +1,6 @@
 #include "AGFTFunctionLibrary.h"
 
-#include "AGFourTale/Framework/AGFTCharacter.h"
+#include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 
 
 float FAGFTUtils::GetReplicatedPitchValue(const APawn* FromPawn)
@@ -31,6 +31,7 @@ float FAGFTUtils::GetReplicatedYawValue(const APawn* FromPawn)
 	}
 	
 	//else this is different player, that need to get RemoteViewYaw instead
-	const float Yaw = FRotator::DecompressAxisFromByte(Cast<AAGFTCharacter>(FromPawn)->RemoteViewYaw);
+	const auto AGFTPawnInterface = Cast<IAGFTPawnInterface>(FromPawn);
+	const float Yaw = FRotator::DecompressAxisFromByte(AGFTPawnInterface->GetRemoteViewYaw());
 	return Yaw > 90 ? Yaw - 360 : Yaw;
 }
