@@ -1,6 +1,5 @@
 #include "AGFTFunctionLibrary.h"
 
-#include "Kismet/KismetSystemLibrary.h"
 
 float FAGFTUtils::GetReplicatedPitchValue(const APawn* FromPawn)
 {
