@@ -38,6 +38,8 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	CurrentAcceleration = InAnimInstance->MovementComponent->GetCurrentAcceleration();
 	MoveThreshold = InAnimInstance->MoveThreshold;
 	bIsFalling = InAnimInstance->MovementComponent->IsFalling();
+
+	FallVelocityThreshold = InAnimInstance->FallVelocityThreshold;
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
@@ -56,5 +58,6 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 
 	GroundSpeed = Velocity.Size2D();
 	bShouldMove = GroundSpeed > MoveThreshold && !CurrentAcceleration.Equals(FVector::ZeroVector, 0.f);
-	bCanEnterJumpFromFalling = bIsFalling && Velocity.Z > 100.f;
+
+	bCanEnterJumpFromFalling = bIsFalling && Velocity.Z > FallVelocityThreshold;
 }

@@ -32,6 +32,8 @@ private:
 	FVector CurrentAcceleration = FVector::ZeroVector;
 	
 	float MoveThreshold = 0.f;
+
+	float FallVelocityThreshold = 0.f;
 #pragma endregion
 	
 	virtual void Update(float DeltaSeconds) override;
@@ -77,4 +79,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float MoveThreshold = 3.f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float FallVelocityThreshold = 100.f;
 };
