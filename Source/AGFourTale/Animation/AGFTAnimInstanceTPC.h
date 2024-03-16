@@ -22,13 +22,13 @@ private:
 	void UpdateValuesFromAnimInstance(const class UAGFTAnimInstanceTPC* InAnimInstance);
 
 #pragma region PreUpdate variables (directly from AnimInstance)
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	FVector Velocity = FVector::ZeroVector;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bIsFalling = false;
 	
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float CharacterPitch = 0.f;
 
 
@@ -46,19 +46,19 @@ private:
 	bool bShouldUpdate = true;
 
 #pragma region Update variables (in anim thread)
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float GroundSpeed = 0.f;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bShouldMove = false;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bCanEnterJumpFromFalling = false;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float MoveDirection = 0.f;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	float CharacterYaw = 0.f;
 #pragma endregion
 };
@@ -71,8 +71,8 @@ class AGFOURTALE_API UAGFTAnimInstanceTPC : public UAnimInstance
 private:
 	virtual void NativeInitializeAnimation() override;
 
-	
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	//Should not be changed in Details. Only for change in Preview
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, Category = "AnimProxy Preview", meta = (AllowPrivateAccess = "true"))
 	FAGFTAnimInstanceTPC_Proxy Proxy;
 
 	virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override { return &Proxy; }
