@@ -1,6 +1,7 @@
 ﻿#include "AGFTAnimInstanceTPC.h"
 
 #include "KismetAnimationLibrary.h"
+#include "AGFourTale/Utils/AGFTFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -44,7 +45,7 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 
 	BaseActorRotation = InAnimInstance->CharacterOwner->GetActorRotation();
 	BaseAimRotation = InAnimInstance->CharacterOwner->GetBaseAimRotation();
-	CharacterPitch = BaseAimRotation.Pitch;
+	CharacterPitch = FAGFTUtils::GetReplicatedPitchValue(InAnimInstance->CharacterOwner);
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
