@@ -76,10 +76,11 @@ private:
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCharacterMovementComponent> MovementComponent;
 
-	
+	//Used in calculation for Proxy's bShouldMove. Determines threshold for value GroundSpeed 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float MoveThreshold = 3.f;
 
+	//Used in calculation for Proxy's bCanEnterJumpFromFalling. Determines threshold for Z value of Velocity
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	float FallVelocityThreshold = 100.f;
 };
