@@ -10,7 +10,6 @@ float FAGFTUtils::GetReplicatedPitchValue(const APawn* FromPawn)
 	}
 	if (FromPawn->GetController() && FromPawn->IsLocallyControlled())
 	{
-		UKismetSystemLibrary::PrintString(FromPawn, TEXT("this player"), true, false, FColor::Cyan, 0.f);
 		return FromPawn->GetBaseAimRotation().Pitch;
 	}
 	
