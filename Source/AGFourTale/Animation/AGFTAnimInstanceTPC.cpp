@@ -1,5 +1,6 @@
 ﻿#include "AGFTAnimInstanceTPC.h"
 
+#include "KismetAnimationLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -40,6 +41,8 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	bIsFalling = InAnimInstance->MovementComponent->IsFalling();
 
 	FallVelocityThreshold = InAnimInstance->FallVelocityThreshold;
+
+	BaseActorRotation = InAnimInstance->CharacterOwner->GetActorRotation();
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)
@@ -60,4 +63,6 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 	bShouldMove = GroundSpeed > MoveThreshold && !CurrentAcceleration.Equals(FVector::ZeroVector, 0.f);
 
 	bCanEnterJumpFromFalling = bIsFalling && Velocity.Z > FallVelocityThreshold;
+	
+	MoveDirection = UKismetAnimationLibrary::CalculateDirection(Velocity, BaseActorRotation);
 }
