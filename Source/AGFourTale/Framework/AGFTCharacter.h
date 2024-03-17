@@ -33,6 +33,10 @@ private:
 	virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
 
 	FORCEINLINE virtual float GetRemoteViewYaw() const override { return RemoteViewYaw; }
+	FORCEINLINE virtual void SetRemoteViewYaw(const float NewRemoteViewYaw) override
+	{
+		RemoteViewYaw = NewRemoteViewYaw;
+	}
 
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera)
@@ -61,6 +65,6 @@ private:
 	
 	//copy of RemoteViewPitch, but for Yaw
 	UPROPERTY(Replicated)
-	uint8 RemoteViewYaw; //todo: should also add APlayerController::EndPlayingState() like for Pitch
+	uint8 RemoteViewYaw;
 };
 

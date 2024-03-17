@@ -19,4 +19,5 @@ class AGFOURTALE_API IAGFTPawnInterface
 public:
 	//Optional, if pawn needs to replicate it's Yaw view, for animation purposes
 	virtual float GetRemoteViewYaw() const;
+	virtual void SetRemoteViewYaw(const float NewRemoteViewYaw);
 };

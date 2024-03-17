@@ -9,4 +9,7 @@ UCLASS()
 class AGFOURTALE_API AAGFTPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+private:
+	virtual void EndPlayingState() override;
 };
