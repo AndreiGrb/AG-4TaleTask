@@ -127,10 +127,24 @@ void AAGFTCharacter::Look(const FInputActionValue& Value)
 
 void AAGFTCharacter::ShootPressed()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Hello"));
+	AAGFTWeapon* Weapon = GetCurrentHoldingWeapon();
+	if (!IsValid(Weapon))
+	{
+		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::ShootPressed] No weapon is currently hold"));
+		return;
+	}
+	
+	Weapon->ShootPressed();
 }
 
 void AAGFTCharacter::ShootReleased()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("World!"));
+	AAGFTWeapon* Weapon = GetCurrentHoldingWeapon();
+	if (!IsValid(Weapon))
+	{
+		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::ShootReleased] No weapon is currently hold"));
+		return;
+	}
+	
+	Weapon->ShootReleased();
 }
