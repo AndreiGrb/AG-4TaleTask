@@ -33,9 +33,9 @@ float FAGFTUtils::GetReplicatedYawValue(const APawn* FromPawn)
 	}
 	
 	//else this is different player, that need to get RemoteViewYaw instead
-	if (const auto AGFTPawnInterface = Cast<IAGFTPawnInterface>(FromPawn))
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(FromPawn))
 	{
-		return FRotator::DecompressAxisFromByte(AGFTPawnInterface->GetRemoteViewYaw());
+		return FRotator::DecompressAxisFromByte(PawnInterface->GetRemoteViewYaw());
 	}
 	//if pawn not inherited by interface, write message in log and return 0.f
 	UE_LOG(LogUtils, Error, TEXT("[FAGFTUtils::GetReplicatedYawValue] Pawn is not inherited by interface"
