@@ -16,6 +16,10 @@ public:
 	//Visualization of how Crosshair determines it's position on screen
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	bool bShowCrosshairTrace;
+
+	//Set all projectile life span
+	UPROPERTY(Config, EditAnywhere, Category = "Projectile")
+	float ProjectileLifeSpan;
 	
 private:
 #if WITH_EDITOR
