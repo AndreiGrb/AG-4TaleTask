@@ -52,7 +52,8 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	}
 	else
 	{
-		UE_LOG(LogCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component!"), *GetNameSafe(this));
+		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::SetupPlayerInputComponent]'%s'"
+								   " Failed to find an Enhanced Input component!"), *GetNameSafe(this));
 	}
 
 	if (const auto PlayerController = Cast<APlayerController>(Controller))
