@@ -14,8 +14,4 @@ void UAGFTWidgetHUD::NativeConstruct()
 		return;
 	}
 	
-	if(UCanvasPanelSlot* PanelSlot = Cast<UCanvasPanelSlot>(TestCrosshair->Slot))
-	{
-		PanelSlot->SetPosition(FVector2D(0, 0));  // Sets the position to coordinates (100, 100)
-	}
 }
