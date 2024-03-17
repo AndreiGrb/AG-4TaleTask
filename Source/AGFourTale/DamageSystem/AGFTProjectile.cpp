@@ -1,6 +1,6 @@
 ﻿#include "AGFTProjectile.h"
 
-#include "AGFourTale/Utils/AGFTGameSettings.h"
+#include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"

@@ -1,9 +1,9 @@
 ﻿#include "AGFTWidgetHUD.h"
 
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
+#include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTDebugLibrary.h"
-#include "AGFourTale/Utils/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
