@@ -54,6 +54,9 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::Look);
+
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AAGFTCharacter::ShootPressed);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &AAGFTCharacter::ShootReleased);
 	}
 	else
 	{
@@ -120,4 +123,14 @@ void AAGFTCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AAGFTCharacter::ShootPressed()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Hello"));
+}
+
+void AAGFTCharacter::ShootReleased()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("World!"));
 }

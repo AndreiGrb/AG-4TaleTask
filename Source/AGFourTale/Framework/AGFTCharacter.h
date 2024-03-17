@@ -62,9 +62,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> LookAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> ShootAction;
+
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+
+	void ShootPressed();
+	void ShootReleased();
 
 	
 	//copy of RemoteViewPitch, but for Yaw
