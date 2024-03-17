@@ -9,10 +9,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
+#include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Net/UnrealNetwork.h"
 
-DEFINE_LOG_CATEGORY(LogCharacter);
 
 AAGFTCharacter::AAGFTCharacter()
 {

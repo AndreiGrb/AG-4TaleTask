@@ -1,8 +1,7 @@
 #include "AGFTFunctionLibrary.h"
 
+#include "AGFTLogCategories.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
-
-DEFINE_LOG_CATEGORY(LogUtils);
 
 
 float FAGFTUtils::GetReplicatedPitchValue(const APawn* FromPawn)

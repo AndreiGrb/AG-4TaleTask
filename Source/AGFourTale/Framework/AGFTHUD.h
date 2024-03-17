@@ -7,8 +7,6 @@
 
 class UAGFTWidgetHUD;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogHUD, Log, All);
-
 UCLASS()
 class AGFOURTALE_API AAGFTHUD : public AHUD
 {

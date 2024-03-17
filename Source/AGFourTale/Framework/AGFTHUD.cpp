@@ -1,8 +1,8 @@
 ﻿#include "AGFTHUD.h"
 
 #include "AGFourTale/UI/AGFTWidgetHUD.h"
+#include "AGFourTale/Utils/AGFTLogCategories.h"
 
-DEFINE_LOG_CATEGORY(LogHUD);
 
 void AAGFTHUD::BeginPlay()
 {

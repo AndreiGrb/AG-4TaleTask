@@ -1,6 +1,5 @@
 #pragma once
 
-DECLARE_LOG_CATEGORY_EXTERN(LogUtils, Log, All);
 
 struct FAGFTUtils
 {

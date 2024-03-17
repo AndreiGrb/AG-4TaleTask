@@ -7,7 +7,6 @@
 class UTextBlock;
 class UCanvasPanel;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogWidgetHUD, Log, All);
 
 UCLASS()
 class AGFOURTALE_API UAGFTWidgetHUD : public UUserWidget

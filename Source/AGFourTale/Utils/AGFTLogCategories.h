@@ -1,0 +1,9 @@
+#pragma once
+
+DECLARE_LOG_CATEGORY_EXTERN(LogCharacter, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogHUD, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogUtils, Log, All);
+
+inline DEFINE_LOG_CATEGORY(LogCharacter);
+inline DEFINE_LOG_CATEGORY(LogHUD);
+inline DEFINE_LOG_CATEGORY(LogUtils);

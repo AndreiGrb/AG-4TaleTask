@@ -3,14 +3,13 @@
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTDebugLibrary.h"
+#include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
 
-
-DEFINE_LOG_CATEGORY(LogWidgetHUD);
 
 void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
@@ -23,28 +22,28 @@ void UAGFTWidgetHUD::MoveCrosshair()
 {
 	if (!DynamicCrosshair)
 	{
-		UE_LOG(LogWidgetHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair == nullptr"));
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair == nullptr"));
 		return;
 	}
 
 	const auto PanelSlot = Cast<UCanvasPanelSlot>(DynamicCrosshair->Slot);
 	if (!PanelSlot)
 	{
-		UE_LOG(LogWidgetHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair is not a child of Canvas"));
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair is not a child of Canvas"));
 		return;
 	}
 
 	const auto PawnInterface = Cast<IAGFTPawnInterface>(GetOwningPlayerPawn());
 	if (!PawnInterface)
 	{
-		UE_LOG(LogWidgetHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] OwningPlayer's Pawn is not inherited by PawnInterface"));
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] OwningPlayer's Pawn is not inherited by PawnInterface"));
 		return;
 	}
 
 	const AAGFTWeapon* HoldingWeapon = PawnInterface->GetCurrentHoldingWeapon();
 	if (!HoldingWeapon)
 	{
-		UE_LOG(LogWidgetHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] HoldingWeapon == nullptr"));
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] HoldingWeapon == nullptr"));
 		return;
 	}
 

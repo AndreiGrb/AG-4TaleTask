@@ -12,7 +12,6 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogCharacter, Log, All);
 
 UCLASS(config=Game)
 class AAGFTCharacter : public ACharacter, public IAGFTPawnInterface
