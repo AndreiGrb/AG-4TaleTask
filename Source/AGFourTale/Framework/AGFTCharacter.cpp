@@ -79,7 +79,7 @@ void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyT
 	if (GetLocalRole() == ROLE_Authority && GetController())
 	{
 		// Compress yaw to 1 byte
-		RemoteViewYaw = FRotator::CompressAxisToByte(GetController()->GetControlRotation().Yaw);
+		SetRemoteViewYaw(FRotator::CompressAxisToByte(GetController()->GetControlRotation().Yaw));
 	}
 }
 
