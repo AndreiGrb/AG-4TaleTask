@@ -38,6 +38,8 @@ private:
 		RemoteViewYaw = NewRemoteViewYaw;
 	}
 
+	virtual AAGFTWeapon* GetCurrentHoldingWeapon() override;
+
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	TObjectPtr<USpringArmComponent> CameraBoom;
@@ -46,7 +48,7 @@ private:
 	TObjectPtr<UCameraComponent> FollowCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UChildActorComponent> CurrentWeapon;
+	TObjectPtr<UChildActorComponent> CurrentWeaponComponent;
 
 	
 	UPROPERTY(EditAnywhere, Category = Input)

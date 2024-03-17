@@ -5,6 +5,8 @@
 #include "AGFTPawnInterface.generated.h"
 
 
+class AAGFTWeapon;
+
 UINTERFACE()
 class UAGFTPawnInterface : public UInterface
 {
@@ -20,4 +22,7 @@ public:
 	//Optional, if pawn needs to replicate it's Yaw view, for animation purposes
 	virtual float GetRemoteViewYaw() const;
 	virtual void SetRemoteViewYaw(const float NewRemoteViewYaw);
+
+	//Get current weapon, that pawn is holding, if it has one
+	virtual AAGFTWeapon* GetCurrentHoldingWeapon();
 };

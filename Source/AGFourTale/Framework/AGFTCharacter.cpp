@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Net/UnrealNetwork.h"
 
@@ -40,8 +41,8 @@ AAGFTCharacter::AAGFTCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	CurrentWeapon = CreateDefaultSubobject<UChildActorComponent>("CurrentWeapon");
-	CurrentWeapon->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_ATTACHMENT);
+	CurrentWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("CurrentWeapon");
+	CurrentWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_ATTACHMENT);
 }
 
 void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -86,6 +87,11 @@ void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyT
 		// Compress yaw to 1 byte
 		SetRemoteViewYaw(FRotator::CompressAxisToByte(GetController()->GetControlRotation().Yaw));
 	}
+}
+
+AAGFTWeapon* AAGFTCharacter::GetCurrentHoldingWeapon()
+{
+	return Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
 }
 
 void AAGFTCharacter::Move(const FInputActionValue& Value)
