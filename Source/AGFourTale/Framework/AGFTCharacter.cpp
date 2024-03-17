@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "AGFourTale/Utils/AGFTNames.h"
 #include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogCharacter);
@@ -38,6 +39,9 @@ AAGFTCharacter::AAGFTCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	CurrentWeapon = CreateDefaultSubobject<UChildActorComponent>("CurrentWeapon");
+	CurrentWeapon->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_ATTACHMENT);
 }
 
 void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
