@@ -32,6 +32,5 @@ float FAGFTUtils::GetReplicatedYawValue(const APawn* FromPawn)
 	
 	//else this is different player, that need to get RemoteViewYaw instead
 	const auto AGFTPawnInterface = Cast<IAGFTPawnInterface>(FromPawn);
-	const float Yaw = FRotator::DecompressAxisFromByte(AGFTPawnInterface->GetRemoteViewYaw());
-	return Yaw > 90 ? Yaw - 360 : Yaw;
+	return FRotator::DecompressAxisFromByte(AGFTPawnInterface->GetRemoteViewYaw());
 }
