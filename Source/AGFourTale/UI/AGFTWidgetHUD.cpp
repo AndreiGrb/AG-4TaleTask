@@ -58,6 +58,10 @@ void UAGFTWidgetHUD::MoveCrosshair()
 	FHitResult OutHit;
 	
 	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECC_Visibility);
+	if (Settings->bShowCrosshairTrace)
+	{
+		FAGFTDebugTrace::DrawDebugLineTraceSingle(GetWorld(), StartLocation, EndLocation, bHit, OutHit);
+	}
 
 	FVector2D ScreenPosition;
 	bool bSuccess = UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(GetOwningPlayer(),

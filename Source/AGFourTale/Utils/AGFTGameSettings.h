@@ -13,7 +13,9 @@ public:
 	//Determines distance for trace, that is responsible for DynamicCrosshair position
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	float CrosshairTraceDistance = 10000.f;
-	
+	//Visualization of how Crosshair determines it's position on screen
+	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	bool bShowCrosshairTrace;
 	
 private:
 #if WITH_EDITOR
