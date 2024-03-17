@@ -21,9 +21,4 @@ private:
 	
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
 	TObjectPtr<UTextBlock> DynamicCrosshair;
-
-
-	//Determines distance for trace, that is responsible for DynamicCrosshair position
-	UPROPERTY(EditAnywhere, Category = "Settings")
-	float CrosshairTraceDistance = 10000.f;
 };

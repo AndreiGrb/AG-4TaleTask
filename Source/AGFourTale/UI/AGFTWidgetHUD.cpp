@@ -3,6 +3,7 @@
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTDebugLibrary.h"
+#include "AGFourTale/Utils/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
@@ -47,15 +48,16 @@ void UAGFTWidgetHUD::MoveCrosshair()
 		return;
 	}
 
+	auto Settings = GetDefault<UAGFTGameSettings>();
+
 	const FVector StartLocation = HoldingWeapon->GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
 	const FVector WeaponRightVector = HoldingWeapon->GetActorRightVector();
-	const FVector TraceDistance = WeaponRightVector * CrosshairTraceDistance;
+	const FVector TraceDistance = WeaponRightVector * Settings->CrosshairTraceDistance;
 	FVector EndLocation = StartLocation + TraceDistance;
 
 	FHitResult OutHit;
 	
 	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECC_Visibility);
-	FAGFTDebugTrace::DrawDebugLineTraceSingle(GetWorld(), StartLocation, EndLocation, bHit, OutHit);
 
 	FVector2D ScreenPosition;
 	bool bSuccess = UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(GetOwningPlayer(),
