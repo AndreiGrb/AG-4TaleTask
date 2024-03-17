@@ -9,5 +9,10 @@ class AGFOURTALE_API AAGFTWeapon : public AActor
 {
 	GENERATED_BODY()
 
-
+private:
+	AAGFTWeapon();
+	
+	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USkeletalMeshComponent> WeaponMeshComponent;
 };
