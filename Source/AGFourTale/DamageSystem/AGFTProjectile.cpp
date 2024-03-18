@@ -1,6 +1,7 @@
 ﻿#include "AGFTProjectile.h"
 
 #include "AGFourTale/Design/AGFTGameSettings.h"
+#include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -41,10 +42,30 @@ void AAGFTProjectile::BeginPlay()
 	}
 
 	SphereCollisionComponent->OnComponentHit.AddDynamic(this, &AAGFTProjectile::OnProjectileHit);
+
+	FindProjectileConfigFromDT();
 }
 
 void AAGFTProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	Destroy();
+}
+
+void AAGFTProjectile::FindProjectileConfigFromDT()
+{
+	if (!ProjectileConfigDTRowHandle.DataTable || ProjectileConfigDTRowHandle.RowName.IsNone())
+	{
+		UE_LOG(LogWeapon, Error, TEXT("[AAGFTProjectile::FindProjectileConfigFromDT] WeaponConfigDTRowHandle is Null!"));
+	}
+	else
+	{
+		const auto RowData = ProjectileConfigDTRowHandle.GetRow<FAGFTProjectileConfig>(TEXT(""));
+		if (!RowData)
+		{
+			UE_LOG(LogWeapon, Error, TEXT("[AAGFTProjectile::FindProjectileConfigFromDT] Could not find any valid data."));
+			return;
+		}
+		ProjectileConfig = *RowData;
+	}
 }

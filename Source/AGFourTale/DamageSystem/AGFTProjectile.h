@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "AGFourTale/Design/AGFTProjectilesConfig.h"
 #include "GameFramework/Actor.h"
 #include "AGFTProjectile.generated.h"
 
@@ -31,4 +32,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
+
+
+	void FindProjectileConfigFromDT();
+
+	FAGFTProjectileConfig ProjectileConfig;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	FDataTableRowHandle ProjectileConfigDTRowHandle;
 };
