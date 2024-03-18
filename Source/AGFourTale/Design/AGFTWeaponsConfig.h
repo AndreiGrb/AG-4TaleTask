@@ -6,6 +6,15 @@
 
 class AAGFTProjectile;
 
+
+UENUM(BlueprintType)
+enum class EAGFTWeaponShotType : uint8
+{
+    SHOT_SINGLE UMETA(DisplayName = "Single"),
+    SHOT_SHOTGUN UMETA(DisplayName = "Shotgun"),
+    MAX UMETA(Hidden)
+};
+
 USTRUCT(BlueprintType)
 struct FAGFTWeaponConfig : public FTableRowBase
 {
@@ -17,8 +26,10 @@ public:
     , FireRate(1.f)
     , MaxAmmoCapacity(1)
     , ProjectileClass(nullptr)
+    , ShotType(EAGFTWeaponShotType::SHOT_SINGLE)
+    , NumberOfProjectiles(1)
     {}
-    
+
     UPROPERTY(EditAnywhere)
     bool bIsAutomatic;
 
@@ -31,4 +42,10 @@ public:
 
     UPROPERTY(EditAnywhere)
     TSubclassOf<AAGFTProjectile> ProjectileClass;
+
+    UPROPERTY(EditAnywhere)
+    EAGFTWeaponShotType ShotType;
+
+    UPROPERTY(EditAnywhere, meta = (ClampMin = 1, EditCondition = "ShotType != EAGFTWeaponShotType::SHOT_SINGLE"))
+    int32 NumberOfProjectiles;
 };
