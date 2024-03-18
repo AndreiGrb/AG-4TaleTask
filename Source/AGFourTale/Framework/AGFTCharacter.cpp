@@ -207,6 +207,9 @@ void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 
 		GetWorldTimerManager().ClearTimer(OrientationLockTimerHandle);
 
+		
+		/** Remote call server in case of owning client only.
+		*	Listen-server already replicates bOrientRotationToMovement by character movement component */
 		if (IsNetMode(NM_Client) && IsLocallyControlled())
 		{
 			Server_SetOrientationLocked();
@@ -219,6 +222,8 @@ void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 										&AAGFTCharacter::OrientationLockTimer,
 		                                GameSettingsCDO->HipUnlockOrientationCooldown);
 
+		/** Remote call server in case of owning client only.
+		*	Listen-server already replicates bOrientRotationToMovement by character movement component */
 		if (IsNetMode(NM_Client) && IsLocallyControlled())
 		{
 			Server_SetOrientationUnlocked();
