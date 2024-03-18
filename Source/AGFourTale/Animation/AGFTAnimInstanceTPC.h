@@ -85,10 +85,10 @@ private:
 	TObjectPtr<UCharacterMovementComponent> MovementComponent;
 
 	//Used in calculation for Proxy's bShouldMove. Determines threshold for value GroundSpeed 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.1f))
 	float MoveThreshold = 3.f;
 
 	//Used in calculation for Proxy's bCanEnterJumpFromFalling. Determines threshold for Z value of Velocity
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.1f))
 	float FallVelocityThreshold = 100.f;
 };

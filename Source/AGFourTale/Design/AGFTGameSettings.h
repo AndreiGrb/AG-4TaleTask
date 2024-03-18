@@ -11,21 +11,21 @@ class AGFOURTALE_API UAGFTGameSettings : public UDeveloperSettings
 
 public:
 	//Determines distance for trace, that is responsible for DynamicCrosshair position
-	UPROPERTY(Config, EditAnywhere, Category = "UI")
+	UPROPERTY(Config, EditAnywhere, Category = "UI", meta = (ClampMin = 1.f))
 	float CrosshairTraceDistance = 10000.f;
 	//Visualization of how Crosshair determines it's position on screen
 	UPROPERTY(Config, EditAnywhere, Category = "UI")
 	bool bShowCrosshairTrace;
 
 	//Set all projectile life span
-	UPROPERTY(Config, EditAnywhere, Category = "Projectile")
+	UPROPERTY(Config, EditAnywhere, Category = "Projectile", meta = (ClampMin = 0.1f, ClampMax = 50.f))
 	float ProjectileLifeSpan;
 
 	//Time to unlock character's orientation after shooting
-	UPROPERTY(Config, EditAnywhere, Category = "Character")
+	UPROPERTY(Config, EditAnywhere, Category = "Character", meta = (ClampMin = 0.1f))
 	float HipUnlockOrientationCooldown = 2.f;
 	//MaxWalkSpeed while aiming
-	UPROPERTY(Config, EditAnywhere, Category = "Character")
+	UPROPERTY(Config, EditAnywhere, Category = "Character", meta = (ClampMin = 1.f))
 	float MaxWalkSpeedAiming = 200.f;
 	
 private:
