@@ -20,6 +20,10 @@ public:
 	//Set all projectile life span
 	UPROPERTY(Config, EditAnywhere, Category = "Projectile")
 	float ProjectileLifeSpan;
+
+	//Time to unlock character's orientation after shooting
+	UPROPERTY(Config, EditAnywhere, Category = "Character")
+	float HipUnlockOrientationCooldown = 2.f;
 	
 private:
 #if WITH_EDITOR

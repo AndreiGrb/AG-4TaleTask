@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
+#include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Net/UnrealNetwork.h"
@@ -92,6 +93,7 @@ void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 
 	DOREPLIFETIME_CONDITION(AAGFTCharacter, RemoteViewYaw, COND_SkipOwner);
 	DOREPLIFETIME_CONDITION(AAGFTCharacter, bIsAiming, COND_SkipOwner);
+	DOREPLIFETIME_CONDITION(AAGFTCharacter, bIsOrientationLocked, COND_SkipOwner);
 }
 
 void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)
@@ -149,6 +151,8 @@ void AAGFTCharacter::ShootPressed()
 
 	Weapon->OnWeaponFired.AddDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootPressed();
+
+	SetOrientationLock(true);
 }
 
 void AAGFTCharacter::ShootReleased()
@@ -166,7 +170,7 @@ void AAGFTCharacter::ShootReleased()
 
 void AAGFTCharacter::AimPressed()
 {
-	GetCharacterMovement()->bOrientRotationToMovement = false;
+	SetOrientationLock(true);
 	AimCamera->Activate();
 	FollowCamera->Deactivate();
 	bIsAiming = true;
@@ -176,7 +180,7 @@ void AAGFTCharacter::AimPressed()
 
 void AAGFTCharacter::AimReleased()
 {
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	SetOrientationLock(false);
 	FollowCamera->Activate();
 	AimCamera->Deactivate();
 	bIsAiming = false;
@@ -184,15 +188,42 @@ void AAGFTCharacter::AimReleased()
 	Server_StoppedAiming();
 }
 
+void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
+{
+	GetCharacterMovement()->bOrientRotationToMovement = !bIsLocked;
+
+	if (bIsLocked)
+	{
+		const auto GameSettingsCDO = GetDefault<UAGFTGameSettings>();
+		GetWorldTimerManager().SetTimer(OrientationLockTimerHandle, this,
+										&AAGFTCharacter::OrientationLockTimer,
+		                                GameSettingsCDO->HipUnlockOrientationCooldown);
+
+		if (IsNetMode(NM_Client))
+		{
+			
+		}
+	}
+}
+
+void AAGFTCharacter::OrientationLockTimer()
+{
+	if (bIsAiming)
+	{
+		return;
+	}
+	SetOrientationLock(false);
+}
+
 void AAGFTCharacter::Server_StartedAiming_Implementation()
 {
-	GetCharacterMovement()->bOrientRotationToMovement = false;
+	SetOrientationLock(true);
 	bIsAiming = true;
 }
 
 void AAGFTCharacter::Server_StoppedAiming_Implementation()
 {
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	SetOrientationLock(false);
 	bIsAiming = false;
 }
 

@@ -105,4 +105,15 @@ private:
 
 	UPROPERTY(Replicated)
 	bool bIsAiming;
+
+	
+	UPROPERTY(Replicated)
+	bool bIsOrientationLocked;
+
+	void SetOrientationLock(bool bIsLocked);
+	
+	FTimerHandle OrientationLockTimerHandle;
+
+	UFUNCTION()
+	void OrientationLockTimer();
 };
