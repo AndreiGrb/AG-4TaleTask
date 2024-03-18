@@ -93,7 +93,6 @@ void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 
 	DOREPLIFETIME_CONDITION(AAGFTCharacter, RemoteViewYaw, COND_SkipOwner);
 	DOREPLIFETIME_CONDITION(AAGFTCharacter, bIsAiming, COND_SkipOwner);
-	DOREPLIFETIME_CONDITION(AAGFTCharacter, bIsOrientationLocked, COND_SkipOwner);
 }
 
 void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)
@@ -188,6 +187,11 @@ void AAGFTCharacter::AimReleased()
 	Server_StoppedAiming();
 }
 
+void AAGFTCharacter::Server_SetOrientationLock_Implementation()
+{
+	SetOrientationLock(true);
+}
+
 void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 {
 	GetCharacterMovement()->bOrientRotationToMovement = !bIsLocked;
@@ -199,9 +203,9 @@ void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 										&AAGFTCharacter::OrientationLockTimer,
 		                                GameSettingsCDO->HipUnlockOrientationCooldown);
 
-		if (IsNetMode(NM_Client))
+		if (IsNetMode(NM_Client) && IsLocallyControlled())
 		{
-			
+			Server_SetOrientationLock();
 		}
 	}
 }

@@ -105,10 +105,10 @@ private:
 
 	UPROPERTY(Replicated)
 	bool bIsAiming;
-
 	
-	UPROPERTY(Replicated)
-	bool bIsOrientationLocked;
+
+	UFUNCTION(Server, Unreliable)
+	void Server_SetOrientationLock();
 
 	void SetOrientationLock(bool bIsLocked);
 	
