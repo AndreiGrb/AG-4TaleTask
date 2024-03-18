@@ -17,7 +17,7 @@ float FAGFTUtils::GetReplicatedPitchValue(const APawn* FromPawn)
 	
 	//else this is different player, that need to get RemoteViewPitch instead
 	const float Pitch = FRotator::DecompressAxisFromByte(FromPawn->RemoteViewPitch);
-	return Pitch > 90 ? Pitch - 360 : Pitch;
+	return Pitch > 90 ? Pitch - 360 : Pitch; //makes pitch value usable
 }
 
 float FAGFTUtils::GetReplicatedYawValue(const APawn* FromPawn)
