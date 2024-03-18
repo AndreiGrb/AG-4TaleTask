@@ -168,6 +168,8 @@ void AAGFTCharacter::AimPressed()
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 	AimCamera->Activate();
 	FollowCamera->Deactivate();
+
+	Server_StartedAiming();
 }
 
 void AAGFTCharacter::AimReleased()
@@ -175,6 +177,18 @@ void AAGFTCharacter::AimReleased()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	FollowCamera->Activate();
 	AimCamera->Deactivate();
+	
+	Server_StoppedAiming();
+}
+
+void AAGFTCharacter::Server_StartedAiming_Implementation()
+{
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+}
+
+void AAGFTCharacter::Server_StoppedAiming_Implementation()
+{
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,
