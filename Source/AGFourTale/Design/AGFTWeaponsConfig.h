@@ -17,9 +17,11 @@ public:
     : bIsAutomatic(false)
     , FireRate(1.f)
     , MaxAmmoCapacity(1)
+    , SpawnWithExtraMagazines(0)
     , ProjectileClass(nullptr)
     , NumberOfProjectilesPerShot(1)
     , ProjectileRandomSpread(0.f)
+    , bDropOnDeath(false)
     {}
 
     UPROPERTY(EditAnywhere)
@@ -29,8 +31,11 @@ public:
     UPROPERTY(EditAnywhere, meta = (ClampMin = 0.1f))
     float FireRate;
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, meta = (ClampMin = 1))
     int32 MaxAmmoCapacity;
+
+    UPROPERTY(EditAnywhere, meta = (ClampMin = 0))
+    int32 SpawnWithExtraMagazines;
 
     UPROPERTY(EditAnywhere)
     TSubclassOf<AAGFTProjectile> ProjectileClass;
@@ -40,4 +45,7 @@ public:
 
     UPROPERTY(EditAnywhere, meta = (ClampMin = 0.f))
     float ProjectileRandomSpread;
+
+    UPROPERTY(EditAnywhere)
+    bool bDropOnDeath;
 };
