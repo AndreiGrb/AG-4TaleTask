@@ -16,11 +16,22 @@ void AAGFTWeapon::ShootPressed()
 	const FVector ShootLocation = GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
 	const FRotator ShootRotation = GetActorRightVector().ToOrientationRotator();
 
-	GetWorld()->SpawnActor<AAGFTProjectile>(ProjectileClass, ShootLocation, ShootRotation);
+	ShootProjectile(ShootLocation, ShootRotation);
 }
 
 void AAGFTWeapon::ShootReleased()
 {
+}
+
+void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation)
+{
+	if (IsNetMode(NM_Client))
+	{
+		OnWeaponFired.Broadcast(GetClass(), ShootLocation, ShootRotation);
+	}
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = GetOwner();
+	GetWorld()->SpawnActor<AAGFTProjectile>(ProjectileClass, ShootLocation, ShootRotation, SpawnParameters);
 }
 
 AAGFTWeapon::AAGFTWeapon()

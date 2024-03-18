@@ -11,6 +11,7 @@
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -133,7 +134,8 @@ void AAGFTCharacter::ShootPressed()
 		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::ShootPressed] No weapon is currently hold"));
 		return;
 	}
-	
+
+	Weapon->OnWeaponFired.AddDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootPressed();
 }
 
@@ -145,6 +147,27 @@ void AAGFTCharacter::ShootReleased()
 		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::ShootReleased] No weapon is currently hold"));
 		return;
 	}
-	
+
+	Weapon->OnWeaponFired.RemoveDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootReleased();
+}
+
+void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,
+                                                 const FVector& ShootLocation, const FRotator& ShootRotation)
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = GetOwner();
+	
+	AAGFTWeapon* CreatedWeapon = GetWorld()->SpawnActor<AAGFTWeapon>(WeaponClass, ShootLocation, ShootRotation, SpawnParameters);
+	if (!CreatedWeapon)
+	{
+		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::Server_Shoot] Failed to spawn server shooter"));
+		return;
+	}
+	CreatedWeapon->SetActorHiddenInGame(true);
+	CreatedWeapon->SetActorEnableCollision(false);
+	CreatedWeapon->DisableComponentsSimulatePhysics();
+	CreatedWeapon->SetLifeSpan(0.1f);
+	
+	CreatedWeapon->ShootProjectile(ShootLocation, ShootRotation);
 }

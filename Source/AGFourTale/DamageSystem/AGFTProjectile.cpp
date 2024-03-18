@@ -4,6 +4,8 @@
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 AAGFTProjectile::AAGFTProjectile()
@@ -21,6 +23,8 @@ AAGFTProjectile::AAGFTProjectile()
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
 	ProjectileMovementComponent->InitialSpeed = 3000.f;
 	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
+
+	bReplicates = true;
 }
 
 void AAGFTProjectile::BeginPlay()
@@ -28,6 +32,13 @@ void AAGFTProjectile::BeginPlay()
 	Super::BeginPlay();
 
 	SetLifeSpan(GetDefault<UAGFTGameSettings>()->ProjectileLifeSpan);
+
+	const auto PlayerController = Cast<APlayerController>(GetOwner());
+	if (PlayerController && PlayerController->IsLocalController())
+	{	//Hide replicated projectile for owner
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+	}
 
 	SphereCollisionComponent->OnComponentHit.AddDynamic(this, &AAGFTProjectile::OnProjectileHit);
 }

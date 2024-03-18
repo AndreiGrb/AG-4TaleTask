@@ -72,6 +72,10 @@ private:
 	void ShootPressed();
 	void ShootReleased();
 
+	UFUNCTION(Server, Unreliable)
+	void Server_Shoot(TSubclassOf<AAGFTWeapon> WeaponClass, const FVector& ShootLocation,
+	                  const FRotator& ShootRotation);
+
 	
 	//copy of RemoteViewPitch, but for Yaw
 	UPROPERTY(Replicated)
