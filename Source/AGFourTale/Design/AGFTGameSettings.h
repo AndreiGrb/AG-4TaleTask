@@ -30,6 +30,10 @@ public:
 	//MaxWalkSpeed while aiming
 	UPROPERTY(Config, EditAnywhere, Category = "Character", meta = (ClampMin = 1.f))
 	float MaxWalkSpeedAiming = 200.f;
+
+	//Determines speed for all pickups
+	UPROPERTY(Config, EditAnywhere, Category = "Pickup", meta = (ClampMin = 1.f))
+	float PickupSpinSpeed = 100.f;
 	
 private:
 #if WITH_EDITOR
