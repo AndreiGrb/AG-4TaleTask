@@ -42,9 +42,23 @@ void AAGFTWeapon::ShootProjectile()
 	{
 		OnWeaponFired.Broadcast(GetClass(), ShootLocation, ShootRotation);
 	}
+
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
-	GetWorld()->SpawnActor<AAGFTProjectile>(WeaponConfig.ProjectileClass, ShootLocation, ShootRotation, SpawnParameters);
+	
+	for (int32 i = 0; i < WeaponConfig.NumberOfProjectilesPerShot; i++)
+	{
+		FRotator FinalShootRotation = ShootRotation;
+		if (WeaponConfig.ProjectileRandomSpread > 0.f)
+		{
+			FRotator RotationDeviation = FRotator(GetRandomSpread(),
+											GetRandomSpread(),
+											GetRandomSpread());
+			FinalShootRotation = ShootRotation + RotationDeviation;
+		}
+
+		GetWorld()->SpawnActor<AAGFTProjectile>(WeaponConfig.ProjectileClass, ShootLocation, FinalShootRotation, SpawnParameters);
+	}
 }
 
 AAGFTWeapon::AAGFTWeapon()
@@ -86,4 +100,10 @@ void AAGFTWeapon::CooldownBetweenShotsExpired()
 	{
 		ShootPressed();
 	}
+}
+
+float AAGFTWeapon::GetRandomSpread() const
+{
+	return FMath::RandRange(-WeaponConfig.ProjectileRandomSpread,
+							WeaponConfig.ProjectileRandomSpread);
 }

@@ -20,6 +20,9 @@ public:
 	//Set all projectile life span
 	UPROPERTY(Config, EditAnywhere, Category = "Projectile", meta = (ClampMin = 0.1f, ClampMax = 50.f))
 	float ProjectileLifeSpan;
+	//Max deviation, in which pellet will changed its rotation from base shoot rotation
+	UPROPERTY(Config, EditAnywhere, Category = "Projectile", meta = (ClampMin = 0.1f, ClampMax = 50.f))
+	float ShotgunPelletMaxDeviation = 10.f;
 
 	//Time to unlock character's orientation after shooting
 	UPROPERTY(Config, EditAnywhere, Category = "Character", meta = (ClampMin = 0.1f))

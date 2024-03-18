@@ -49,4 +49,7 @@ private:
 	bool bIsInCooldown;
 
 	bool bIsShootPressed;
+
+
+	float GetRandomSpread() const;
 };
