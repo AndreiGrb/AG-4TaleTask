@@ -14,12 +14,13 @@ void AAGFTWeapon::ShootPressed()
 		return;
 	}
 
+	bIsShootPressed = true;
+
 	if (bIsInCooldown)
 	{
 		return;
 	}
 	bIsInCooldown = true;
-	bIsShootPressed = true;
 
 	ShootProjectile();
 	
