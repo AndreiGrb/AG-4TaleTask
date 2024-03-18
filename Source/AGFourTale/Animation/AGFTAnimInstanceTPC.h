@@ -70,7 +70,7 @@ private:
 	virtual void NativeInitializeAnimation() override;
 
 	//Should not be changed in Details. Only for change in Preview
-	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, Category = "AnimProxy Preview", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, Category = "Settings|AnimProxy Preview", meta = (AllowPrivateAccess = "true"))
 	FAGFTAnimInstanceTPC_Proxy Proxy;
 
 	virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override { return &Proxy; }
