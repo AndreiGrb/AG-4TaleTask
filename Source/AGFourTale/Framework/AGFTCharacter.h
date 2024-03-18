@@ -92,10 +92,10 @@ private:
 	void AimPressed();
 	void AimReleased();
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Unreliable)
 	void Server_StartedAiming();
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Unreliable)
 	void Server_StoppedAiming();
 	
 	
