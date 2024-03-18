@@ -41,6 +41,15 @@ AAGFTCharacter::AAGFTCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	AimCameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("AimCameraBoom"));
+	AimCameraBoom->SetupAttachment(RootComponent);
+	AimCameraBoom->TargetArmLength = 80.876366f;
+	AimCameraBoom->bUsePawnControlRotation = true;
+
+	AimCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("AimCamera"));
+	AimCamera->SetupAttachment(AimCameraBoom, USpringArmComponent::SocketName);
+	AimCamera->bUsePawnControlRotation = false;
+
 	CurrentWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("CurrentWeapon");
 	CurrentWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_ATTACHMENT);
 }
@@ -157,11 +166,15 @@ void AAGFTCharacter::ShootReleased()
 void AAGFTCharacter::AimPressed()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = false;
+	AimCamera->Activate();
+	FollowCamera->Deactivate();
 }
 
 void AAGFTCharacter::AimReleased()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	FollowCamera->Activate();
+	AimCamera->Deactivate();
 }
 
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,
