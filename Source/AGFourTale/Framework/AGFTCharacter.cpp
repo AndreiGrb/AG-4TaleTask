@@ -291,5 +291,5 @@ void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> Weapon
 	CreatedWeapon->DisableComponentsSimulatePhysics();
 	CreatedWeapon->SetLifeSpan(0.1f);
 	
-	CreatedWeapon->ShootProjectile(ShootLocation, ShootRotation);
+	CreatedWeapon->ShootProjectile();
 }

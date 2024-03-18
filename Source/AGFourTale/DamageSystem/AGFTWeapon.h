@@ -17,8 +17,8 @@ class AGFOURTALE_API AAGFTWeapon : public AActor
 public:
 	void ShootPressed();
 	void ShootReleased();
-
-	void ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation);
+	
+	void ShootProjectile();
 
 	
 	FOnWeaponFired OnWeaponFired;
@@ -39,4 +39,14 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FDataTableRowHandle WeaponConfigDTRowHandle;
+
+
+	FTimerHandle CooldownBetweenShotsTimerHandle;
+
+	UFUNCTION()
+	void CooldownBetweenShotsExpired();
+	
+	bool bIsInCooldown;
+
+	bool bIsShootPressed;
 };

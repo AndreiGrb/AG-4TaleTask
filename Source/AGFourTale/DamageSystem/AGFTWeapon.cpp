@@ -13,19 +13,31 @@ void AAGFTWeapon::ShootPressed()
 		UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::ShootPressed] ProjectileClass == nullptr"));
 		return;
 	}
-	
-	const FVector ShootLocation = GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
-	const FRotator ShootRotation = GetActorRightVector().ToOrientationRotator();
 
-	ShootProjectile(ShootLocation, ShootRotation);
+	if (bIsInCooldown)
+	{
+		return;
+	}
+	bIsInCooldown = true;
+	bIsShootPressed = true;
+
+	ShootProjectile();
+	
+	GetWorldTimerManager().SetTimer(CooldownBetweenShotsTimerHandle, this,
+										&AAGFTWeapon::CooldownBetweenShotsExpired,
+										WeaponConfig.FireRate);
 }
 
 void AAGFTWeapon::ShootReleased()
 {
+	bIsShootPressed = false;
 }
 
-void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation)
+void AAGFTWeapon::ShootProjectile()
 {
+	const FVector& ShootLocation = GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
+	const FRotator& ShootRotation = GetActorRightVector().ToOrientationRotator();
+	
 	if (IsNetMode(NM_Client))
 	{
 		OnWeaponFired.Broadcast(GetClass(), ShootLocation, ShootRotation);
@@ -63,5 +75,15 @@ void AAGFTWeapon::FindWeaponConfigFromDT()
 			return;
 		}
 		WeaponConfig = *RowData;
+	}
+}
+
+void AAGFTWeapon::CooldownBetweenShotsExpired()
+{
+	bIsInCooldown = false;
+
+	if (bIsShootPressed && WeaponConfig.bIsAutomatic)
+	{
+		ShootPressed();
 	}
 }
