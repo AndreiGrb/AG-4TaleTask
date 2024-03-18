@@ -106,7 +106,7 @@ void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyT
 	}
 }
 
-AAGFTWeapon* AAGFTCharacter::GetCurrentHoldingWeapon()
+AAGFTWeapon* AAGFTCharacter::GetCurrentHoldingWeapon() const
 {
 	return Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
 }
@@ -238,6 +238,8 @@ void AAGFTCharacter::OrientationLockTimer()
 		return;
 	}
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()

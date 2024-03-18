@@ -11,12 +11,12 @@ void IAGFTPawnInterface::SetRemoteViewYaw(const float NewRemoteViewYaw)
 	//Here should be overriden by Pawn to set RemoteViewYaw
 }
 
-AAGFTWeapon* IAGFTPawnInterface::GetCurrentHoldingWeapon()
+AAGFTWeapon* IAGFTPawnInterface::GetCurrentHoldingWeapon() const
 {
 	return nullptr; //Here should be overriden by Pawn that using Weapons
 }
 
-bool IAGFTPawnInterface::IsAiming()
+bool IAGFTPawnInterface::IsAiming() const
 {
 	return false; //Override if pawn has aiming functionality
 }

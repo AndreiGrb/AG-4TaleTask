@@ -24,8 +24,8 @@ public:
 	virtual void SetRemoteViewYaw(const float NewRemoteViewYaw);
 
 	//Get current weapon, that pawn is holding, if it has one
-	virtual AAGFTWeapon* GetCurrentHoldingWeapon();
+	virtual AAGFTWeapon* GetCurrentHoldingWeapon() const;
 
 	//Check if pawn is using aiming/ironsights
-	virtual bool IsAiming();
+	virtual bool IsAiming() const;
 };

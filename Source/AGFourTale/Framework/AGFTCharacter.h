@@ -37,9 +37,9 @@ private:
 		RemoteViewYaw = NewRemoteViewYaw;
 	}
 
-	virtual AAGFTWeapon* GetCurrentHoldingWeapon() override;
+	virtual AAGFTWeapon* GetCurrentHoldingWeapon() const override;
 
-	FORCEINLINE virtual bool IsAiming() override { return bIsAiming; }
+	FORCEINLINE virtual bool IsAiming() const override { return bIsAiming; }
 
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
