@@ -165,6 +165,8 @@ void AAGFTCharacter::ShootReleased()
 
 	Weapon->OnWeaponFired.RemoveDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootReleased();
+
+	SetOrientationLock(false);
 }
 
 void AAGFTCharacter::AimPressed()
@@ -187,16 +189,30 @@ void AAGFTCharacter::AimReleased()
 	Server_StoppedAiming();
 }
 
-void AAGFTCharacter::Server_SetOrientationLock_Implementation()
+void AAGFTCharacter::Server_SetOrientationLocked_Implementation()
 {
 	SetOrientationLock(true);
 }
 
+void AAGFTCharacter::Server_SetOrientationUnlocked_Implementation()
+{
+	SetOrientationLock(false);
+}
+
 void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 {
-	GetCharacterMovement()->bOrientRotationToMovement = !bIsLocked;
-
 	if (bIsLocked)
+	{
+		GetCharacterMovement()->bOrientRotationToMovement = false;
+
+		GetWorldTimerManager().ClearTimer(OrientationLockTimerHandle);
+
+		if (IsNetMode(NM_Client) && IsLocallyControlled())
+		{
+			Server_SetOrientationLocked();
+		}
+	}
+	else
 	{
 		const auto GameSettingsCDO = GetDefault<UAGFTGameSettings>();
 		GetWorldTimerManager().SetTimer(OrientationLockTimerHandle, this,
@@ -205,7 +221,7 @@ void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 
 		if (IsNetMode(NM_Client) && IsLocallyControlled())
 		{
-			Server_SetOrientationLock();
+			Server_SetOrientationUnlocked();
 		}
 	}
 }
@@ -216,7 +232,7 @@ void AAGFTCharacter::OrientationLockTimer()
 	{
 		return;
 	}
-	SetOrientationLock(false);
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()

@@ -108,7 +108,10 @@ private:
 	
 
 	UFUNCTION(Server, Unreliable)
-	void Server_SetOrientationLock();
+	void Server_SetOrientationLocked();
+
+	UFUNCTION(Server, Unreliable)
+	void Server_SetOrientationUnlocked();
 
 	void SetOrientationLock(bool bIsLocked);
 	
