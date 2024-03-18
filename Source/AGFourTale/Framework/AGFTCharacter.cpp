@@ -199,6 +199,11 @@ void AAGFTCharacter::Server_SetOrientationUnlocked_Implementation()
 	SetOrientationLock(false);
 }
 
+bool AAGFTCharacter::IsOrientationLockActive() const
+{
+	return !GetCharacterMovement()->bOrientRotationToMovement;
+}
+
 void AAGFTCharacter::SetOrientationLock(bool bIsLocked)
 {
 	if (bIsLocked)

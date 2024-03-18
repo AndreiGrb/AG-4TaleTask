@@ -28,4 +28,7 @@ public:
 
 	//Check if pawn is using aiming/ironsights
 	virtual bool IsAiming() const;
+
+	//Check if pawn is in orientation lock
+	virtual bool IsOrientationLockActive() const;
 };

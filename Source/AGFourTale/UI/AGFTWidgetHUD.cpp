@@ -15,29 +15,31 @@
 void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	
-	MoveCrosshair();
+
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(GetOwningPlayerPawn()))
+	{
+		if (DynamicCrosshair)
+		{
+			MoveCrosshair(PawnInterface);
+			TryPlayingDynamicCrosshairAnim(PawnInterface);
+		}
+		else
+		{
+			UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::NativeTick] DynamicCrosshair == nullptr"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::NativeTick] OwningPlayer's Pawn is not inherited by PawnInterface"));
+	}
 }
 
-void UAGFTWidgetHUD::MoveCrosshair()
+void UAGFTWidgetHUD::MoveCrosshair(const IAGFTPawnInterface* PawnInterface)
 {
-	if (!DynamicCrosshair)
-	{
-		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair == nullptr"));
-		return;
-	}
-
 	const auto PanelSlot = Cast<UCanvasPanelSlot>(DynamicCrosshair->Slot);
 	if (!PanelSlot)
 	{
 		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] DynamicCrosshair is not a child of Canvas"));
-		return;
-	}
-
-	const auto PawnInterface = Cast<IAGFTPawnInterface>(GetOwningPlayerPawn());
-	if (!PawnInterface)
-	{
-		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::MoveCrosshair] OwningPlayer's Pawn is not inherited by PawnInterface"));
 		return;
 	}
 
@@ -68,10 +70,21 @@ void UAGFTWidgetHUD::MoveCrosshair()
 																bHit ? OutHit.Location : EndLocation,
 	                                                           ScreenPosition, false);
 
-	if (bSuccess)
+	if (!bSuccess)
 	{
-		PanelSlot->SetPosition(ScreenPosition);
+		return;
 	}
+	PanelSlot->SetPosition(ScreenPosition);
+}
 
-	DynamicCrosshair->SetVisibility(bSuccess ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+void UAGFTWidgetHUD::TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* PawnInterface)
+{
+	if (PawnInterface->IsOrientationLockActive() && !DynamicCrosshair->IsVisible())
+	{
+		PlayShowDynamicCrosshairAnim(true);
+	}
+	else if (!PawnInterface->IsOrientationLockActive() && DynamicCrosshair->IsVisible())
+	{
+		PlayShowDynamicCrosshairAnim(false);
+	}
 }

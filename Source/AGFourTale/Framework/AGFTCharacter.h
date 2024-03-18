@@ -105,7 +105,9 @@ private:
 
 	UPROPERTY(Replicated)
 	bool bIsAiming;
-	
+
+
+	FORCEINLINE virtual bool IsOrientationLockActive() const override;
 
 	UFUNCTION(Server, Unreliable)
 	void Server_SetOrientationLocked();

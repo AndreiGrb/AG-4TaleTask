@@ -20,3 +20,8 @@ bool IAGFTPawnInterface::IsAiming() const
 {
 	return false; //Override if pawn has aiming functionality
 }
+
+bool IAGFTPawnInterface::IsOrientationLockActive() const
+{
+	return false; //Override if pawn has orientation lock
+}
