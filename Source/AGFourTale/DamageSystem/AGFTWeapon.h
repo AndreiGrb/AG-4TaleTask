@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "AGFourTale/Design/AGFTWeaponsConfig.h"
 #include "GameFramework/Actor.h"
 #include "AGFTWeapon.generated.h"
 
@@ -24,11 +25,18 @@ public:
 
 private:
 	AAGFTWeapon();
+
+	virtual void BeginPlay() override;
 	
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USkeletalMeshComponent> WeaponMeshComponent;
+	
 
+	void FindWeaponConfigFromDT();
+
+	FAGFTWeaponConfig WeaponConfig;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	TSubclassOf<AAGFTProjectile> ProjectileClass;
+	FDataTableRowHandle WeaponConfigDTRowHandle;
 };

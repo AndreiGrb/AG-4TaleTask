@@ -1,13 +1,14 @@
 ﻿#include "AGFTWeapon.h"
 
 #include "AGFTProjectile.h"
+#include "AGFourTale/Design/AGFTWeaponsConfig.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 
 
 void AAGFTWeapon::ShootPressed()
 {
-	if (!ProjectileClass)
+	if (!WeaponConfig.ProjectileClass)
 	{
 		UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::ShootPressed] ProjectileClass == nullptr"));
 		return;
@@ -31,11 +32,36 @@ void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& 
 	}
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
-	GetWorld()->SpawnActor<AAGFTProjectile>(ProjectileClass, ShootLocation, ShootRotation, SpawnParameters);
+	GetWorld()->SpawnActor<AAGFTProjectile>(WeaponConfig.ProjectileClass, ShootLocation, ShootRotation, SpawnParameters);
 }
 
 AAGFTWeapon::AAGFTWeapon()
 {
 	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
 	SetRootComponent(WeaponMeshComponent);
+}
+
+void AAGFTWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+
+	FindWeaponConfigFromDT();
+}
+
+void AAGFTWeapon::FindWeaponConfigFromDT()
+{
+	if (!WeaponConfigDTRowHandle.DataTable || WeaponConfigDTRowHandle.RowName.IsNone())
+	{
+		UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::BeginPlay] WeaponConfigDTRowHandle is Null!"));
+	}
+	else
+	{
+		const auto RowData = WeaponConfigDTRowHandle.GetRow<FAGFTWeaponConfig>(TEXT(""));
+		if (!RowData)
+		{
+			UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::BeginPlay] Could not find any valid data."));
+			return;
+		}
+		WeaponConfig = *RowData;
+	}
 }
