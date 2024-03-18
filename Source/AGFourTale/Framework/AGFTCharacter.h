@@ -27,6 +27,10 @@ private:
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	virtual void BeginPlay() override;
+
+	float DefaultMaxWalkSpeed;
+
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
@@ -97,14 +101,16 @@ private:
 
 	UFUNCTION(Server, Unreliable)
 	void Server_StoppedAiming();
+
+	void SetIsAiming(const bool NewAimingValue);
+
+	UPROPERTY(Replicated)
+	bool bIsAiming;
 	
 	
 	//copy of RemoteViewPitch, but for Yaw
 	UPROPERTY(Replicated)
 	uint8 RemoteViewYaw;
-
-	UPROPERTY(Replicated)
-	bool bIsAiming;
 
 
 	FORCEINLINE virtual bool IsOrientationLockActive() const override;

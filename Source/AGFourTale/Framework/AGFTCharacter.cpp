@@ -87,6 +87,13 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	
 }
 
+void AAGFTCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	DefaultMaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+}
+
 void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -174,7 +181,7 @@ void AAGFTCharacter::AimPressed()
 	SetOrientationLock(true);
 	AimCamera->Activate();
 	FollowCamera->Deactivate();
-	bIsAiming = true;
+	SetIsAiming(true);
 
 	Server_StartedAiming();
 }
@@ -184,9 +191,17 @@ void AAGFTCharacter::AimReleased()
 	SetOrientationLock(false);
 	FollowCamera->Activate();
 	AimCamera->Deactivate();
-	bIsAiming = false;
+	SetIsAiming(false);
 	
 	Server_StoppedAiming();
+}
+
+void AAGFTCharacter::SetIsAiming(const bool NewAimingValue)
+{
+	bIsAiming = NewAimingValue;
+
+	float& MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	MaxWalkSpeed = bIsAiming ? GetDefault<UAGFTGameSettings>()->MaxWalkSpeedAiming : DefaultMaxWalkSpeed;
 }
 
 void AAGFTCharacter::Server_SetOrientationLocked_Implementation()
@@ -250,13 +265,13 @@ void AAGFTCharacter::OrientationLockTimer()
 void AAGFTCharacter::Server_StartedAiming_Implementation()
 {
 	SetOrientationLock(true);
-	bIsAiming = true;
+	SetIsAiming(true);
 }
 
 void AAGFTCharacter::Server_StoppedAiming_Implementation()
 {
 	SetOrientationLock(false);
-	bIsAiming = false;
+	SetIsAiming(false);
 }
 
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,

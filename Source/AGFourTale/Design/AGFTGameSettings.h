@@ -24,6 +24,9 @@ public:
 	//Time to unlock character's orientation after shooting
 	UPROPERTY(Config, EditAnywhere, Category = "Character")
 	float HipUnlockOrientationCooldown = 2.f;
+	//MaxWalkSpeed while aiming
+	UPROPERTY(Config, EditAnywhere, Category = "Character")
+	float MaxWalkSpeedAiming = 200.f;
 	
 private:
 #if WITH_EDITOR
