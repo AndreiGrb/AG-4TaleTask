@@ -39,6 +39,8 @@ private:
 
 	virtual AAGFTWeapon* GetCurrentHoldingWeapon() override;
 
+	FORCEINLINE virtual bool IsAiming() override { return bIsAiming; }
+
 	
 	UPROPERTY(VisibleAnywhere, Category = Camera, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> CameraBoom;
@@ -100,4 +102,7 @@ private:
 	//copy of RemoteViewPitch, but for Yaw
 	UPROPERTY(Replicated)
 	uint8 RemoteViewYaw;
+
+	UPROPERTY(Replicated)
+	bool bIsAiming;
 };

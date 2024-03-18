@@ -25,4 +25,7 @@ public:
 
 	//Get current weapon, that pawn is holding, if it has one
 	virtual AAGFTWeapon* GetCurrentHoldingWeapon();
+
+	//Check if pawn is using aiming/ironsights
+	virtual bool IsAiming();
 };

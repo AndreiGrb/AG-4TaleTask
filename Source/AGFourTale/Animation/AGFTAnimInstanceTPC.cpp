@@ -1,6 +1,7 @@
 ﻿#include "AGFTAnimInstanceTPC.h"
 
 #include "KismetAnimationLibrary.h"
+#include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -47,6 +48,11 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 
 	PitchAim = FAGFTUtils::GetReplicatedPitchValue(InAnimInstance->CharacterOwner);
 	BaseYawAim = FAGFTUtils::GetReplicatedYawValue(InAnimInstance->CharacterOwner);
+
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(InAnimInstance->CharacterOwner))
+	{
+		bIsAiming = PawnInterface->IsAiming();
+	}
 }
 
 void FAGFTAnimInstanceTPC_Proxy::Update(float DeltaSeconds)

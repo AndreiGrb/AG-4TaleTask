@@ -91,6 +91,7 @@ void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION(AAGFTCharacter, RemoteViewYaw, COND_SkipOwner);
+	DOREPLIFETIME_CONDITION(AAGFTCharacter, bIsAiming, COND_SkipOwner);
 }
 
 void AAGFTCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)
@@ -168,6 +169,7 @@ void AAGFTCharacter::AimPressed()
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 	AimCamera->Activate();
 	FollowCamera->Deactivate();
+	bIsAiming = true;
 
 	Server_StartedAiming();
 }
@@ -177,6 +179,7 @@ void AAGFTCharacter::AimReleased()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	FollowCamera->Activate();
 	AimCamera->Deactivate();
+	bIsAiming = false;
 	
 	Server_StoppedAiming();
 }
@@ -184,11 +187,13 @@ void AAGFTCharacter::AimReleased()
 void AAGFTCharacter::Server_StartedAiming_Implementation()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = false;
+	bIsAiming = true;
 }
 
 void AAGFTCharacter::Server_StoppedAiming_Implementation()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bIsAiming = false;
 }
 
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,

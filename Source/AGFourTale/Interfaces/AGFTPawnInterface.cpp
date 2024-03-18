@@ -15,3 +15,8 @@ AAGFTWeapon* IAGFTPawnInterface::GetCurrentHoldingWeapon()
 {
 	return nullptr; //Here should be overriden by Pawn that using Weapons
 }
+
+bool IAGFTPawnInterface::IsAiming()
+{
+	return false; //Override if pawn has aiming functionality
+}
