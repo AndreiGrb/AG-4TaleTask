@@ -52,14 +52,14 @@ void AAGFTWeapon::FindWeaponConfigFromDT()
 {
 	if (!WeaponConfigDTRowHandle.DataTable || WeaponConfigDTRowHandle.RowName.IsNone())
 	{
-		UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::BeginPlay] WeaponConfigDTRowHandle is Null!"));
+		UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::FindWeaponConfigFromDT] WeaponConfigDTRowHandle is Null!"));
 	}
 	else
 	{
 		const auto RowData = WeaponConfigDTRowHandle.GetRow<FAGFTWeaponConfig>(TEXT(""));
 		if (!RowData)
 		{
-			UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::BeginPlay] Could not find any valid data."));
+			UE_LOG(LogWeapon, Error, TEXT("[AAGFTWeapon::FindWeaponConfigFromDT] Could not find any valid data."));
 			return;
 		}
 		WeaponConfig = *RowData;
