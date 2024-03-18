@@ -69,7 +69,7 @@ class AGFOURTALE_API UAGFTAnimInstanceTPC : public UAnimInstance
 private:
 	virtual void NativeInitializeAnimation() override;
 
-	//Should not be changed in Details. Only for change in Preview
+	//Has EditAnywhere, but values inside proxy should not be changed in Details. Only for change in Preview
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, Category = "Settings|AnimProxy Preview", meta = (AllowPrivateAccess = "true"))
 	FAGFTAnimInstanceTPC_Proxy Proxy;
 
