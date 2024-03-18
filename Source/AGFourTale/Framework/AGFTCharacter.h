@@ -65,12 +65,18 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> ShootAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> AimAction;
+
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 
 	void ShootPressed();
 	void ShootReleased();
+
+	void AimPressed();
+	void AimReleased();
 
 	UFUNCTION(Server, Unreliable)
 	void Server_Shoot(TSubclassOf<AAGFTWeapon> WeaponClass, const FVector& ShootLocation,

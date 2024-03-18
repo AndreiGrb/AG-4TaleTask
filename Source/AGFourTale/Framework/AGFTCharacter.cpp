@@ -57,6 +57,9 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AAGFTCharacter::ShootPressed);
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &AAGFTCharacter::ShootReleased);
+
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AAGFTCharacter::AimPressed);
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AAGFTCharacter::AimReleased);
 	}
 	else
 	{
@@ -149,6 +152,16 @@ void AAGFTCharacter::ShootReleased()
 
 	Weapon->OnWeaponFired.RemoveDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootReleased();
+}
+
+void AAGFTCharacter::AimPressed()
+{
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+}
+
+void AAGFTCharacter::AimReleased()
+{
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,
