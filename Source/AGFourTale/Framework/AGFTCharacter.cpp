@@ -331,10 +331,12 @@ void AAGFTCharacter::Server_StoppedAiming_Implementation()
 void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> WeaponClass,
                                                  const FVector& ShootLocation, const FRotator& ShootRotation)
 {
+	const FVector& RebasedShootLocation = FRepMovement::RebaseOntoLocalOrigin(ShootLocation, this);
+	
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
 	
-	AAGFTWeapon* CreatedWeapon = GetWorld()->SpawnActor<AAGFTWeapon>(WeaponClass, ShootLocation, ShootRotation, SpawnParameters);
+	AAGFTWeapon* CreatedWeapon = GetWorld()->SpawnActor<AAGFTWeapon>(WeaponClass, RebasedShootLocation, ShootRotation, SpawnParameters);
 	if (!CreatedWeapon)
 	{
 		UE_LOG(LogCharacter, Error, TEXT("[AAGFTCharacter::Server_Shoot] Failed to spawn server shooter"));
@@ -345,5 +347,5 @@ void AAGFTCharacter::Server_Shoot_Implementation(TSubclassOf<AAGFTWeapon> Weapon
 	CreatedWeapon->DisableComponentsSimulatePhysics();
 	CreatedWeapon->SetLifeSpan(0.1f);
 	
-	CreatedWeapon->ShootProjectile();
+	CreatedWeapon->ShootProjectile(RebasedShootLocation, ShootRotation);
 }

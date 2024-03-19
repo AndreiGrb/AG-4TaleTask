@@ -22,7 +22,9 @@ void AAGFTWeapon::ShootPressed()
 	}
 	bIsInCooldown = true;
 
-	ShootProjectile();
+	const FVector& ShootLocation = GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
+	const FRotator& ShootRotation = GetActorRightVector().ToOrientationRotator();
+	ShootProjectile(ShootLocation, ShootRotation);
 	
 	GetWorldTimerManager().SetTimer(CooldownBetweenShotsTimerHandle, this,
 										&AAGFTWeapon::CooldownBetweenShotsExpired,
@@ -34,11 +36,8 @@ void AAGFTWeapon::ShootReleased()
 	bIsShootPressed = false;
 }
 
-void AAGFTWeapon::ShootProjectile()
+void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation)
 {
-	const FVector& ShootLocation = GetRootComponent()->GetSocketLocation(SOCKETNAME_WEAPON_SHOOT);
-	const FRotator& ShootRotation = GetActorRightVector().ToOrientationRotator();
-	
 	if (IsNetMode(NM_Client))
 	{
 		OnWeaponFired.Broadcast(GetClass(), ShootLocation, ShootRotation);

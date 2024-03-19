@@ -18,7 +18,7 @@ public:
 	void ShootPressed();
 	void ShootReleased();
 	
-	void ShootProjectile();
+	void ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation);
 
 	
 	FOnWeaponFired OnWeaponFired;
