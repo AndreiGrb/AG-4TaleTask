@@ -140,9 +140,15 @@ private:
 	void OrientationLockTimer();
 
 	
-	void SwitchWeaponPressed();
+	void SwitchWeaponsPressed();
 
 	virtual void SwitchWeapons() override;
 	
 	virtual void WeaponSwitchAnimComplete() override;
+
+	UFUNCTION(Server, Reliable)
+	void Server_SwitchWeapons();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_SwitchWeapons();
 };

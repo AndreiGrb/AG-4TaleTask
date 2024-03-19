@@ -75,7 +75,7 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AAGFTCharacter::AimPressed);
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AAGFTCharacter::AimReleased);
 
-		EnhancedInputComponent->BindAction(SwitchWeaponAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::SwitchWeaponPressed);
+		EnhancedInputComponent->BindAction(SwitchWeaponAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::SwitchWeaponsPressed);
 	}
 	else
 	{
@@ -271,7 +271,7 @@ void AAGFTCharacter::OrientationLockTimer()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
-void AAGFTCharacter::SwitchWeaponPressed()
+void AAGFTCharacter::SwitchWeaponsPressed()
 {
 	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
 	{
@@ -279,6 +279,11 @@ void AAGFTCharacter::SwitchWeaponPressed()
 		ShootReleased();
 		
 		AnimInterface->PlaySwitchWeaponAnimation();
+
+		if (IsLocallyControlled())
+		{
+			Server_SwitchWeapons();
+		}
 	}
 }
 
@@ -294,6 +299,21 @@ void AAGFTCharacter::SwitchWeapons()
 void AAGFTCharacter::WeaponSwitchAnimComplete()
 {
 	bCanShoot = true;
+}
+
+void AAGFTCharacter::Server_SwitchWeapons_Implementation()
+{
+	Multicast_SwitchWeapons();
+}
+
+void AAGFTCharacter::Multicast_SwitchWeapons_Implementation()
+{
+	if (IsLocallyControlled())
+	{
+		return;
+	}
+	//Not ideal solution, but it is easy and fast one
+	SwitchWeaponsPressed();
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()
