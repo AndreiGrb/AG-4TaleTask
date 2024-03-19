@@ -53,6 +53,9 @@ AAGFTCharacter::AAGFTCharacter()
 
 	CurrentWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("CurrentWeapon");
 	CurrentWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_ATTACHMENT);
+
+	SecondWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("SecondWeapon");
+	SecondWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_SECOND_ATTACHMENT);
 }
 
 void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -62,6 +62,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UChildActorComponent> CurrentWeaponComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UChildActorComponent> SecondWeaponComponent;
+
 	
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;
