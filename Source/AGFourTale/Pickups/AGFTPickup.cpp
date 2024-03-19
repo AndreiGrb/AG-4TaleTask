@@ -31,6 +31,8 @@ void AAGFTPickup::BeginPlay()
 	{
 		PickupActorComponent->GetChildActor()->SetActorEnableCollision(false);
 	}
+
+	SphereCollision->OnComponentBeginOverlap.AddDynamic(this, &AAGFTPickup::OnSphereOverlap);
 }
 
 void AAGFTPickup::Tick(float DeltaSeconds)
@@ -39,4 +41,10 @@ void AAGFTPickup::Tick(float DeltaSeconds)
 
 	const float SpinSpeed = DeltaSeconds * GetDefault<UAGFTGameSettings>()->PickupSpinSpeed;
 	PickupActorComponent->AddWorldRotation(FRotator(0.f, SpinSpeed, 0.f));
+}
+
+void AAGFTPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	
 }
