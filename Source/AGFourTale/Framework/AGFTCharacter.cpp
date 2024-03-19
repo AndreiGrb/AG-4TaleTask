@@ -154,6 +154,11 @@ void AAGFTCharacter::Look(const FInputActionValue& Value)
 
 void AAGFTCharacter::ShootPressed()
 {
+	if (!bCanShoot)
+	{
+		return;
+	}
+	
 	AAGFTWeapon* Weapon = GetCurrentHoldingWeapon();
 	if (!IsValid(Weapon))
 	{
@@ -264,16 +269,31 @@ void AAGFTCharacter::OrientationLockTimer()
 		return;
 	}
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-
-	
 }
 
 void AAGFTCharacter::SwitchWeaponPressed()
 {
 	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
 	{
+		bCanShoot = false;
+		ShootReleased();
+		
 		AnimInterface->PlaySwitchWeaponAnimation();
 	}
+}
+
+void AAGFTCharacter::SwitchWeapons()
+{
+	auto FirstWeapon = CurrentWeaponComponent->GetChildActorClass();
+	auto SecondWeapon = SecondWeaponComponent->GetChildActorClass();
+	
+	CurrentWeaponComponent->SetChildActorClass(SecondWeapon);
+	SecondWeaponComponent->SetChildActorClass(FirstWeapon);
+}
+
+void AAGFTCharacter::WeaponSwitchAnimComplete()
+{
+	bCanShoot = true;
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()

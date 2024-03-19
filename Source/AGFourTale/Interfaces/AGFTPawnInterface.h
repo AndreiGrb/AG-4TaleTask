@@ -31,4 +31,12 @@ public:
 
 	//Check if pawn is in orientation lock
 	virtual bool IsOrientationLockActive() const;
+
+	//Check if Pawn can shoot (not just capable of shooting)
+	virtual bool CanShoot() const;
+
+	//Call to switch weapons
+	virtual void SwitchWeapons();
+	//Called when animation for switching weapon is complete
+	virtual void WeaponSwitchAnimComplete();
 };

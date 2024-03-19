@@ -27,10 +27,14 @@ void UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation()
 		UE_LOG(LogAnimation, Error, TEXT("SwitchWeaponMontage == nullptr"));
 	}
 	
-	
 	if (Montage_IsPlaying(SwitchWeaponMontage) && !bIsWeaponSwitched)
 	{
 		Montage_Stop(0.1f, SwitchWeaponMontage);
+
+		if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
+		{
+			PawnInterface->WeaponSwitchAnimComplete();
+		}
 	}
 	else
 	{
@@ -42,6 +46,10 @@ void UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation()
 void UAGFTAnimInstanceTPC::WeaponSwitched()
 {
 	bIsWeaponSwitched = true;
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
+	{
+		PawnInterface->SwitchWeapons();
+	}
 }
 
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
@@ -49,7 +57,10 @@ void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted
 {
 	if (Montage == SwitchWeaponMontage && !bInterrupted)
 	{
-		
+		if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
+		{
+			PawnInterface->WeaponSwitchAnimComplete();
+		}
 	}
 }
 

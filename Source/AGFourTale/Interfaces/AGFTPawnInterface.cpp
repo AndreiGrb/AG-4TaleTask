@@ -25,3 +25,18 @@ bool IAGFTPawnInterface::IsOrientationLockActive() const
 {
 	return false; //Override if pawn has orientation lock
 }
+
+bool IAGFTPawnInterface::CanShoot() const
+{
+	return false; //Override if pawn has capability to shoot
+}
+
+void IAGFTPawnInterface::SwitchWeapons()
+{
+	//Override if pawn needs switching weapons
+}
+
+void IAGFTPawnInterface::WeaponSwitchAnimComplete()
+{
+	//Override if pawn needs to receive this call from animation
+}

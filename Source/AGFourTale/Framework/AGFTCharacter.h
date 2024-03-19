@@ -91,6 +91,11 @@ private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 
+
+	bool bCanShoot = true;
+	
+	FORCEINLINE virtual bool CanShoot() const override { return bCanShoot; }
+
 	void ShootPressed();
 	void ShootReleased();
 
@@ -119,7 +124,7 @@ private:
 	uint8 RemoteViewYaw;
 
 
-	FORCEINLINE virtual bool IsOrientationLockActive() const override;
+	virtual bool IsOrientationLockActive() const override;
 
 	UFUNCTION(Server, Unreliable)
 	void Server_SetOrientationLocked();
@@ -136,4 +141,8 @@ private:
 
 	
 	void SwitchWeaponPressed();
+
+	virtual void SwitchWeapons() override;
+	
+	virtual void WeaponSwitchAnimComplete() override;
 };
