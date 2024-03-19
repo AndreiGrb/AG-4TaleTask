@@ -79,12 +79,12 @@ void UAGFTWidgetHUD::MoveCrosshair(const IAGFTPawnInterface* PawnInterface)
 
 void UAGFTWidgetHUD::TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* PawnInterface)
 {
-	if (PawnInterface->IsOrientationLockActive() && !DynamicCrosshair->IsVisible())
-	{
+	if (PawnInterface->IsOrientationLockActive() && PawnInterface->CanShoot() && !DynamicCrosshair->IsVisible())
+	{	//Orientation locked AND can shoot = show crosshair
 		PlayShowDynamicCrosshairAnim(true);
 	}
-	else if (!PawnInterface->IsOrientationLockActive() && DynamicCrosshair->IsVisible())
-	{
+	else if ((!PawnInterface->IsOrientationLockActive() || !PawnInterface->CanShoot()) && DynamicCrosshair->IsVisible())
+	{	//Orientation unlocked OR can't shoot = hide crosshair
 		PlayShowDynamicCrosshairAnim(false);
 	}
 }
