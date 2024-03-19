@@ -40,7 +40,7 @@ public:
     UPROPERTY(EditAnywhere)
     TSubclassOf<AAGFTProjectile> ProjectileClass;
 
-    UPROPERTY(EditAnywhere, meta = (ClampMin = 1, EditCondition = "ShotType != EAGFTWeaponShotType::SHOT_SINGLE"))
+    UPROPERTY(EditAnywhere, meta = (ClampMin = 1))
     int32 NumberOfProjectilesPerShot;
 
     UPROPERTY(EditAnywhere, meta = (ClampMin = 0.f))
