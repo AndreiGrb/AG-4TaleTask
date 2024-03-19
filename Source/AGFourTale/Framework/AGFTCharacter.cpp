@@ -8,11 +8,11 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "AGFourTale/Animation/AGFTAnimInterface.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -270,7 +270,10 @@ void AAGFTCharacter::OrientationLockTimer()
 
 void AAGFTCharacter::SwitchWeaponPressed()
 {
-	UKismetSystemLibrary::PrintString(this);
+	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
+	{
+		AnimInterface->PlaySwitchWeaponAnimation();
+	}
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()

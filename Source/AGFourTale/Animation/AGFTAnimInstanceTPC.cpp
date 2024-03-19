@@ -16,6 +16,41 @@ void UAGFTAnimInstanceTPC::NativeInitializeAnimation()
 		CharacterOwner = Character;
 		MovementComponent = Character->GetCharacterMovement();
 	}
+
+	OnMontageEnded.AddDynamic(this, &UAGFTAnimInstanceTPC::MontageEnded);
+}
+
+void UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation()
+{
+	if (!SwitchWeaponMontage)
+	{
+		UE_LOG(LogAnimation, Error, TEXT("SwitchWeaponMontage == nullptr"));
+	}
+	
+	
+	if (Montage_IsPlaying(SwitchWeaponMontage) && !bIsWeaponSwitched)
+	{
+		Montage_Stop(0.1f, SwitchWeaponMontage);
+	}
+	else
+	{
+		bIsWeaponSwitched = false;
+		Montage_Play(SwitchWeaponMontage);
+	}
+}
+
+void UAGFTAnimInstanceTPC::WeaponSwitched()
+{
+	bIsWeaponSwitched = true;
+}
+
+// ReSharper disable once CppParameterMayBeConstPtrOrRef
+void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	if (Montage == SwitchWeaponMontage && !bInterrupted)
+	{
+		
+	}
 }
 
 void FAGFTAnimInstanceTPC_Proxy::PreUpdate(UAnimInstance* InAnimInstance, float DeltaSeconds)

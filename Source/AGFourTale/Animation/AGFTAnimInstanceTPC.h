@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "AGFTAnimInterface.h"
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimInstanceProxy.h"
 #include "AGFTAnimInstanceTPC.generated.h"
@@ -62,12 +63,13 @@ private:
 };
 
 UCLASS()
-class AGFOURTALE_API UAGFTAnimInstanceTPC : public UAnimInstance
+class AGFOURTALE_API UAGFTAnimInstanceTPC : public UAnimInstance, public IAGFTAnimInterface
 {
 	GENERATED_BODY()
 
 private:
 	virtual void NativeInitializeAnimation() override;
+	
 
 	//Has EditAnywhere, but values inside proxy should not be changed in Details. Only for change in Preview
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, Category = "Settings|AnimProxy Preview", meta = (AllowPrivateAccess = "true"))
@@ -77,6 +79,15 @@ private:
 	virtual void DestroyAnimInstanceProxy(FAnimInstanceProxy* InProxy) override {}
 
 	friend struct FAGFTAnimInstanceTPC_Proxy;
+
+
+	virtual void PlaySwitchWeaponAnimation() override;
+	virtual void WeaponSwitched() override;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UAnimMontage> SwitchWeaponMontage;
+
+	bool bIsWeaponSwitched;
 
 
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -91,4 +102,8 @@ private:
 	//Used in calculation for Proxy's bCanEnterJumpFromFalling. Determines threshold for Z value of Velocity
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.1f))
 	float FallVelocityThreshold = 100.f;
+
+
+	UFUNCTION()
+	void MontageEnded(UAnimMontage* Montage, bool bInterrupted);
 };
