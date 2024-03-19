@@ -21,7 +21,6 @@ public:
     , ProjectileClass(nullptr)
     , NumberOfProjectilesPerShot(1)
     , ProjectileRandomSpread(0.f)
-    , bDropOnDeath(false)
     {}
 
     UPROPERTY(EditAnywhere)
@@ -45,7 +44,4 @@ public:
 
     UPROPERTY(EditAnywhere, meta = (ClampMin = 0.f))
     float ProjectileRandomSpread;
-
-    UPROPERTY(EditAnywhere)
-    bool bDropOnDeath;
 };
