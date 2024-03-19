@@ -285,7 +285,7 @@ void AAGFTCharacter::SwitchWeaponPressed()
 void AAGFTCharacter::SwitchWeapons()
 {
 	const TSubclassOf<AActor> FirstWeapon = CurrentWeaponComponent->GetChildActorClass();
-	const auto SecondWeapon = SecondWeaponComponent->GetChildActorClass();
+	const TSubclassOf<AActor> SecondWeapon = SecondWeaponComponent->GetChildActorClass();
 	
 	CurrentWeaponComponent->SetChildActorClass(SecondWeapon);
 	SecondWeaponComponent->SetChildActorClass(FirstWeapon);
