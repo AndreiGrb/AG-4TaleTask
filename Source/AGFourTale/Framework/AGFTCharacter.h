@@ -107,10 +107,10 @@ private:
 	void AimPressed();
 	void AimReleased();
 
-	UFUNCTION(Server, Unreliable)
+	UFUNCTION(Server, Reliable)
 	void Server_StartedAiming();
 
-	UFUNCTION(Server, Unreliable)
+	UFUNCTION(Server, Reliable)
 	void Server_StoppedAiming();
 
 	void SetIsAiming(const bool NewAimingValue);
