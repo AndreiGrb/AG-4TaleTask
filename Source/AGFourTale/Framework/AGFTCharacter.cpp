@@ -12,6 +12,7 @@
 #include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -73,6 +74,8 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Started, this, &AAGFTCharacter::AimPressed);
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AAGFTCharacter::AimReleased);
+
+		EnhancedInputComponent->BindAction(SwitchWeaponAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::SwitchWeaponPressed);
 	}
 	else
 	{
@@ -263,6 +266,11 @@ void AAGFTCharacter::OrientationLockTimer()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	
+}
+
+void AAGFTCharacter::SwitchWeaponPressed()
+{
+	UKismetSystemLibrary::PrintString(this);
 }
 
 void AAGFTCharacter::Server_StartedAiming_Implementation()

@@ -84,6 +84,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> AimAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> SwitchWeaponAction;
+
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
@@ -130,4 +133,7 @@ private:
 
 	UFUNCTION()
 	void OrientationLockTimer();
+
+	
+	void SwitchWeaponPressed();
 };
