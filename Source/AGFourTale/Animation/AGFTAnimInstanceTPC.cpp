@@ -30,6 +30,7 @@ void UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation()
 	if (!SwitchWeaponMontage)
 	{
 		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation] SwitchWeaponMontage == nullptr"));
+		return;
 	}
 	
 	if (Montage_IsPlaying(SwitchWeaponMontage) && !bIsWeaponSwitched)
@@ -62,6 +63,7 @@ void UAGFTAnimInstanceTPC::PlayReloadAnimation()
 	if (!ReloadWeaponMontage)
 	{
 		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlayReloadAnimation] ReloadWeaponMontage == nullptr"));
+		return;
 	}
 	
 	if (!Montage_IsPlaying(ReloadWeaponMontage))
