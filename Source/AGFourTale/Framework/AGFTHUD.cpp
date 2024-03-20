@@ -15,7 +15,11 @@ void AAGFTHUD::OpenLeaderboard()
 
 	if (IsValid(LeaderboardWeakPtr.Get()))
 	{
-		LeaderboardWeakPtr.Get()->AddToViewport();
+		if (!LeaderboardWeakPtr.Get()->IsInViewport())
+		{
+			LeaderboardWeakPtr.Get()->AddToViewport();
+			return;
+		}
 	}
 	
 	if (const auto Leaderboard = CreateWidget<UAGFTLeaderboard>(GetWorld(), LeaderboardClass))
