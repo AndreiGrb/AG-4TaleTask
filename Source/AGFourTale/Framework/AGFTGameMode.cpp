@@ -53,6 +53,11 @@ void AAGFTGameMode::StartMatch()
 	const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
 	AGFTGameState->bMatchStarted = true;
 	AGFTGameState->RespawnDuration = RespawnTimer;
+
+	if (IsNetMode(NM_ListenServer))
+	{
+		AGFTGameState->OnRep_MatchStarted();
+	}
 }
 
 void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
