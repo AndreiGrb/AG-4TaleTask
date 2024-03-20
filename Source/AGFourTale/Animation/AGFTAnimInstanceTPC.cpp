@@ -181,7 +181,7 @@ void FAGFTAnimInstanceTPC_Proxy::CalculateValuesInProxy(const float DeltaSeconds
 																		FVector2d(0.f, 90.f),
 																		AimCharacterDot);
 	
-	const bool bNegativeSign = FVector::DotProduct(AimForwardVector, CharacterRightVector) < 0.f;
+	const bool bNegativeSign = FVector::DotProduct(AimForwardVector, CharacterRightVector) < 0.001f;
 	const float YawAim = CharacterYawNoSign * (bNegativeSign ? -1.f : 1.f);
 #pragma endregion
 
