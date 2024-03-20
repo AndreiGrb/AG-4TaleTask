@@ -373,8 +373,41 @@ void AAGFTCharacter::Death(AActor* DeadActor, APlayerState* DamageInstigator)
 	}
 }
 
+void AAGFTCharacter::RevivePawn()
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+
+	Multicast_RevivePawn();
+}
+
+void AAGFTCharacter::Multicast_RevivePawn_Implementation()
+{
+	if (IsLocallyControlled())
+	{
+		EnableInput(GetController<APlayerController>());
+	}
+	
+	HealthComponent->Revive();
+	SetActorEnableCollision(true);
+
+	CurrentWeaponComponent->SetChildActorClass(CurrentWeaponComponent->GetChildActorClass());
+	SecondWeaponComponent->SetChildActorClass(SecondWeaponComponent->GetChildActorClass());
+
+	bIsSwitchingWeapons = false;
+	bIsReloading = false;
+	bIsAiming = false;
+	
+	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
+	{
+		AnimInterface->Revived();
+	}
+}
+
 void AAGFTCharacter::Server_Death_Implementation(APlayerState* DamageInstigator)
 {
+	GetCharacterMovement()->SetMovementMode(MOVE_None);
+	SetActorEnableCollision(false);
+	
 	Multicast_Death(DamageInstigator);
 }
 
@@ -383,6 +416,7 @@ void AAGFTCharacter::Multicast_Death_Implementation(APlayerState* DamageInstigat
 	if (!IsLocallyControlled())
 	{
 		HealthComponent->ReceiveDamage(10000, DamageInstigator);
+		SetActorEnableCollision(false);
 	}
 }
 

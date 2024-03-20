@@ -22,4 +22,6 @@ public:
 	
 	virtual void PlayReloadAnimation();
 	virtual void WeaponReloaded();
+
+	virtual void Revived();
 };

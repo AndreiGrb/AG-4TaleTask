@@ -83,6 +83,12 @@ void UAGFTAnimInstanceTPC::WeaponReloaded()
 	}
 }
 
+void UAGFTAnimInstanceTPC::Revived()
+{
+	bIsWeaponReloaded = false;
+	bIsWeaponSwitched = false;
+}
+
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
 void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {

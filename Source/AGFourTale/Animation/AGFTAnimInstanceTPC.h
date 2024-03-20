@@ -104,6 +104,9 @@ private:
 	bool bIsWeaponReloaded;
 
 
+	virtual void Revived() override;
+
+
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ACharacter> CharacterOwner;
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

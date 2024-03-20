@@ -193,4 +193,10 @@ private:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_Death(APlayerState* DamageInstigator);
+
+
+	virtual void RevivePawn() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void Multicast_RevivePawn();
 };

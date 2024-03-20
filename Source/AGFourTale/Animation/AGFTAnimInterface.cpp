@@ -20,3 +20,8 @@ void IAGFTAnimInterface::WeaponReloaded()
 {
 	//Override for when animation notified, that weapon is reloaded
 }
+
+void IAGFTAnimInterface::Revived()
+{
+	//Override if anim variables needs to be reset after revive
+}
