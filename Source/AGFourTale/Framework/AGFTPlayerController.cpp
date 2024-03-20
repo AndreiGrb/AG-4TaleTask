@@ -2,6 +2,7 @@
 
 #include "AGFTCharacter.h"
 #include "AGFTGameMode.h"
+#include "AGFTGameState.h"
 #include "AGFTHUD.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -34,6 +35,22 @@ void AAGFTPlayerController::Client_CurrentMatchTime_Implementation(const float C
 AAGFTPlayerController::AAGFTPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
+}
+
+void AAGFTPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (IsLocalController())
+	{
+		if (const auto GameState = Cast<AAGFTGameState>(GetWorld()->GetGameState()))
+		{
+			if (GameState->bMatchStarted)
+			{
+				Server_RequestMatchTime();
+			}
+		}
+	}
 }
 
 void AAGFTPlayerController::Tick(float DeltaSeconds)

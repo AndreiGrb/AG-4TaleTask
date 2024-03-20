@@ -26,6 +26,8 @@ public:
 
 private:
 	AAGFTPlayerController();
+
+	void BeginPlay();
 	
 	virtual void Tick(float DeltaSeconds) override;
 	

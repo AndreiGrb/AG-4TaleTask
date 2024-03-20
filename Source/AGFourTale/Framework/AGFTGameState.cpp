@@ -14,7 +14,11 @@ void AAGFTGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 
 void AAGFTGameState::OnRep_MatchStarted()
 {
-	Cast<AAGFTPlayerController>(GetWorld()->GetFirstPlayerController())->Server_RequestMatchTime();
+	//Do if check. PlayerController could be nullptr
+	if (const auto PlayerController = Cast<AAGFTPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{	
+		PlayerController->Server_RequestMatchTime();
+	}
 }
 
 void AAGFTGameState::OnRep_MatchIsOver()
