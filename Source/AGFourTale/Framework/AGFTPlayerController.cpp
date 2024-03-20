@@ -3,6 +3,7 @@
 #include "AGFTCharacter.h"
 #include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
+#include "GameFramework/PlayerState.h"
 
 void AAGFTPlayerController::Server_DamageOtherActor_Implementation(AActor* OtherActor, int32 Damage)
 {
@@ -10,7 +11,7 @@ void AAGFTPlayerController::Server_DamageOtherActor_Implementation(AActor* Other
 	{
 		if (const auto OtherCharacter = Cast<AAGFTCharacter>(OtherActor))
 		{
-			OtherCharacter->Client_ReceiveDamage(Damage);
+			OtherCharacter->Client_ReceiveDamage(Damage, GetPlayerState<APlayerState>());
 		}
 	}
 }

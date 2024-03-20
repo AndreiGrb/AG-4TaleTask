@@ -26,7 +26,7 @@ public:
 
 	
 	UFUNCTION(Client, Reliable)
-	void Client_ReceiveDamage(const int32 Damage);
+	void Client_ReceiveDamage(const int32 Damage, APlayerState* DamageInstigator);
 
 private:
 	AAGFTCharacter();
@@ -186,11 +186,11 @@ private:
 	}
 
 	UFUNCTION()
-	void Death();
+	void Death(APlayerState* DamageInstigator);
 
 	UFUNCTION(Server, Reliable)
-	void Server_Death();
+	void Server_Death(APlayerState* DamageInstigator);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void Multicast_Death();
+	void Multicast_Death(APlayerState* DamageInstigator);
 };

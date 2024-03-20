@@ -131,9 +131,9 @@ AAGFTWeapon* AAGFTCharacter::GetCurrentHoldingWeapon() const
 	return Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
 }
 
-void AAGFTCharacter::Client_ReceiveDamage_Implementation(const int32 Damage)
+void AAGFTCharacter::Client_ReceiveDamage_Implementation(const int32 Damage, APlayerState* DamageInstigator)
 {
-	HealthComponent->ReceiveDamage(Damage);
+	HealthComponent->ReceiveDamage(Damage, DamageInstigator);
 }
 
 void AAGFTCharacter::Move(const FInputActionValue& Value)
@@ -364,25 +364,25 @@ void AAGFTCharacter::ReloadWeaponAnimComplete()
 	bIsReloading = false;
 }
 
-void AAGFTCharacter::Death()
+void AAGFTCharacter::Death(APlayerState* DamageInstigator)
 {
 	if (IsLocallyControlled())
 	{
 		DisableInput(GetController<APlayerController>());
-		Server_Death();
+		Server_Death(DamageInstigator);
 	}
 }
 
-void AAGFTCharacter::Server_Death_Implementation()
+void AAGFTCharacter::Server_Death_Implementation(APlayerState* DamageInstigator)
 {
-	Multicast_Death();
+	Multicast_Death(DamageInstigator);
 }
 
-void AAGFTCharacter::Multicast_Death_Implementation()
+void AAGFTCharacter::Multicast_Death_Implementation(APlayerState* DamageInstigator)
 {
 	if (!IsLocallyControlled())
 	{
-		HealthComponent->ReceiveDamage(10000);
+		HealthComponent->ReceiveDamage(10000, DamageInstigator);
 	}
 }
 

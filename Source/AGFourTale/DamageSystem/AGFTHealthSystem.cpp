@@ -1,5 +1,7 @@
 ﻿#include "AGFTHealthSystem.h"
 
+#include "GameFramework/PlayerState.h"
+
 void UAGFTHealthComponent::Revive()
 {
 	bIsDead = false;
@@ -7,14 +9,16 @@ void UAGFTHealthComponent::Revive()
 	Health = DefaultHealthValue;
 }
 
-void UAGFTHealthComponent::ReceiveDamage(const float Damage)
+void UAGFTHealthComponent::ReceiveDamage(const float Damage, APlayerState* Instigator)
 {
 	Health -= Damage;
 
 	if (Health < 1)
 	{
 		bIsDead = true;
-		OnDeath.Broadcast();
+		Killer = Instigator;
+		
+		OnDeath.Broadcast(Instigator);
 	}
 }
 

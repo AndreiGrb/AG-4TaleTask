@@ -5,7 +5,7 @@
 #include "AGFTHealthSystem.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, APlayerState*, Instigator);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class AGFOURTALE_API UAGFTHealthComponent : public UActorComponent
@@ -18,7 +18,7 @@ public:
 
 	void Revive();
 
-	void ReceiveDamage(const float Damage);
+	void ReceiveDamage(const float Damage, APlayerState* Instigator = nullptr);
 
 	FORCEINLINE int32 GetCurrentHealth() const { return Health; }
 	
@@ -31,4 +31,6 @@ private:
 	int32 Health = 100.f;
 
 	bool bIsDead;
+
+	TWeakObjectPtr<APlayerState> Killer;
 };
