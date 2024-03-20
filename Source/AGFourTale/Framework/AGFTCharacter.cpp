@@ -373,18 +373,20 @@ void AAGFTCharacter::Death(AActor* DeadActor, APlayerState* DamageInstigator)
 	}
 }
 
-void AAGFTCharacter::RevivePawn()
+void AAGFTCharacter::RevivePawn(const FRotator& NewControlRotation)
 {
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 
-	Multicast_RevivePawn();
+	Multicast_RevivePawn(NewControlRotation);
 }
 
-void AAGFTCharacter::Multicast_RevivePawn_Implementation()
+void AAGFTCharacter::Multicast_RevivePawn_Implementation(const FRotator& NewControlRotation)
 {
 	if (IsLocallyControlled())
 	{
-		EnableInput(GetController<APlayerController>());
+		const auto PlayerController = GetController<APlayerController>();
+		EnableInput(PlayerController);
+		PlayerController->SetControlRotation(NewControlRotation);
 	}
 	
 	HealthComponent->Revive();

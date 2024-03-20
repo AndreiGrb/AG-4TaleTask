@@ -56,7 +56,7 @@ UAGFTHealthComponent* IAGFTPawnInterface::GetHealthComponent() const
 	return nullptr; //Override if pawn has a health component
 }
 
-void IAGFTPawnInterface::RevivePawn()
+void IAGFTPawnInterface::RevivePawn(const FRotator& NewControlRotation)
 {
 	//Override if pawn needs revival functionality
 }

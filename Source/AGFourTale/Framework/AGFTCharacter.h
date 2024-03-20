@@ -195,8 +195,8 @@ private:
 	void Multicast_Death(APlayerState* DamageInstigator);
 
 
-	virtual void RevivePawn() override;
+	virtual void RevivePawn(const FRotator& NewControlRotation) override;
 
 	UFUNCTION(NetMulticast, Reliable)
-	virtual void Multicast_RevivePawn();
+	virtual void Multicast_RevivePawn(const FRotator& NewControlRotation);
 };

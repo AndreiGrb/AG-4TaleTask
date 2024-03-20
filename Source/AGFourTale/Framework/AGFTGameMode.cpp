@@ -82,10 +82,13 @@ void AAGFTGameMode::RespawnPlayer(const APlayerState* DeadPlayer)
 	{
 		return;
 	}
+
+	const auto PlayerStart = ChoosePlayerStart(DeadPlayer->GetPlayerController());
 	
 	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(DeadPlayer->GetPawn()))
 	{
-		PawnInterface->RevivePawn();
+		PawnInterface->RevivePawn(PlayerStart->GetActorRotation());
 	}
-	RestartPlayer(DeadPlayer->GetPlayerController());
+	
+	DeadPlayer->GetPawn()->SetActorLocation(PlayerStart->GetActorLocation());
 }

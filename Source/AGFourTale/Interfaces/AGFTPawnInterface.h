@@ -49,5 +49,5 @@ public:
 	//Check health of this pawn (if it has one)
 	virtual UAGFTHealthComponent* GetHealthComponent() const;
 
-	virtual void RevivePawn();
+	virtual void RevivePawn(const FRotator& NewControlRotation);
 };
