@@ -10,3 +10,13 @@ void IAGFTAnimInterface::WeaponSwitched()
 {
 	//Override for when animation notified, that weapon has been switched
 }
+
+void IAGFTAnimInterface::PlayReloadAnimation()
+{
+	//Override for weapon reload animation
+}
+
+void IAGFTAnimInterface::WeaponReloaded()
+{
+	//Override for when animation notified, that weapon is reloaded
+}

@@ -156,7 +156,7 @@ void AAGFTCharacter::Look(const FInputActionValue& Value)
 
 void AAGFTCharacter::ShootPressed()
 {
-	if (!bCanShoot)
+	if (!CanShoot())
 	{
 		return;
 	}
@@ -277,7 +277,7 @@ void AAGFTCharacter::SwitchWeaponsPressed()
 {
 	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
 	{
-		bCanShoot = false;
+		bIsSwitchingWeapons = true;
 		ShootReleased();
 		
 		AnimInterface->PlaySwitchWeaponAnimation();
@@ -318,7 +318,7 @@ void AAGFTCharacter::SwitchWeapons()
 
 void AAGFTCharacter::WeaponSwitchAnimComplete()
 {
-	bCanShoot = true;
+	bIsSwitchingWeapons = false;
 }
 
 void AAGFTCharacter::ReloadWeaponPressed()
@@ -329,16 +329,27 @@ void AAGFTCharacter::ReloadWeaponPressed()
 		return;
 	}
 
-	const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance())
+	const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance());
 	if (!AnimInterface)
 	{
 		return;
 	}
 	
-	if (CurrentWeapon->CanReload())
+	if (!bIsSwitchingWeapons && CurrentWeapon->CanReload())
 	{
+		bIsReloading = true;
 		AnimInterface->PlayReloadAnimation();
 	}
+}
+
+void AAGFTCharacter::ReloadWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("AAGFTCharacter::ReloadWeapon"));
+}
+
+void AAGFTCharacter::ReloadWeaponAnimComplete()
+{
+	bIsReloading = false;
 }
 
 void AAGFTCharacter::Server_SwitchWeapons_Implementation()

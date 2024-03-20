@@ -19,4 +19,7 @@ class AGFOURTALE_API IAGFTAnimInterface
 public:
 	virtual void PlaySwitchWeaponAnimation();
 	virtual void WeaponSwitched();
+	
+	virtual void PlayReloadAnimation();
+	virtual void WeaponReloaded();
 };

@@ -87,14 +87,18 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> SwitchWeaponAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> ReloadWeaponAction;
+
 	
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 
 
-	bool bCanShoot = true;
+	bool bIsSwitchingWeapons = false;
+	bool bIsReloading = false;
 	
-	FORCEINLINE virtual bool CanShoot() const override { return bCanShoot; }
+	FORCEINLINE virtual bool CanShoot() const override { return !bIsSwitchingWeapons && !bIsReloading; }
 
 	void ShootPressed();
 	void ShootReleased();
@@ -151,4 +155,11 @@ private:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_SwitchWeapons();
+
+
+	void ReloadWeaponPressed();
+
+	virtual void ReloadWeapon() override;
+
+	virtual void ReloadWeaponAnimComplete() override;
 };

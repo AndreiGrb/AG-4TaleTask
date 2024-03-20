@@ -40,3 +40,13 @@ void IAGFTPawnInterface::WeaponSwitchAnimComplete()
 {
 	//Override if pawn needs to receive this call from animation
 }
+
+void IAGFTPawnInterface::ReloadWeapon()
+{
+	//Override if pawn needs reloading weapon mechanic
+}
+
+void IAGFTPawnInterface::ReloadWeaponAnimComplete()
+{
+	//Override if pawn needs to receive this call from animation
+}

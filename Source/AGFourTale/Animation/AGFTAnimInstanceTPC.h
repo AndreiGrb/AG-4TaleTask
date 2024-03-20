@@ -92,6 +92,15 @@ private:
 	bool bIsWeaponSwitched;
 
 
+	virtual void PlayReloadAnimation() override;
+	virtual void WeaponReloaded() override;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UAnimMontage> ReloadWeaponMontage;
+
+	bool bIsWeaponReloaded;
+
+
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<ACharacter> CharacterOwner;
 	UPROPERTY(Transient, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

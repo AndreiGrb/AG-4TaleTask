@@ -39,4 +39,9 @@ public:
 	virtual void SwitchWeapons();
 	//Called when animation for switching weapon is complete
 	virtual void WeaponSwitchAnimComplete();
+
+	//Call to reload current weapon
+	virtual void ReloadWeapon();
+	//Called when animation for reloading is complete
+	virtual void ReloadWeaponAnimComplete();
 };

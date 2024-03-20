@@ -57,6 +57,29 @@ void UAGFTAnimInstanceTPC::WeaponSwitched()
 	}
 }
 
+void UAGFTAnimInstanceTPC::PlayReloadAnimation()
+{
+	if (!ReloadWeaponMontage)
+	{
+		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlayReloadAnimation] ReloadWeaponMontage == nullptr"));
+	}
+	
+	if (!Montage_IsPlaying(ReloadWeaponMontage))
+	{
+		bIsWeaponReloaded = false;
+		Montage_Play(ReloadWeaponMontage);
+	}
+}
+
+void UAGFTAnimInstanceTPC::WeaponReloaded()
+{
+	bIsWeaponReloaded = true;
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
+	{
+		PawnInterface->ReloadWeapon();
+	}
+}
+
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
 void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
@@ -65,6 +88,14 @@ void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted
 		if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
 		{
 			PawnInterface->WeaponSwitchAnimComplete();
+		}
+	}
+
+	if (Montage == ReloadWeaponMontage)
+	{
+		if (const auto PawnInterface = Cast<IAGFTPawnInterface>(CharacterOwner))
+		{
+			PawnInterface->ReloadWeaponAnimComplete();
 		}
 	}
 }

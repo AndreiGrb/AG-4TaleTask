@@ -12,3 +12,12 @@ class AGFOURTALE_API UAGFTNotify_SwitchedWeapon : public UAnimNotify
 private:
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
 };
+
+UCLASS()
+class AGFOURTALE_API UAGFTNotify_ReloadedWeapon : public UAnimNotify
+{
+	GENERATED_BODY()
+
+private:
+	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
+};

@@ -33,6 +33,9 @@ public:
 	FORCEINLINE const FDataTableRowHandle& GetWeaponConfigRowHandle() const { return WeaponConfigDTRowHandle; }
 	FORCEINLINE const FAGFTWeaponConfig& GetWeaponConfig() const { return WeaponConfig; }
 
+	
+	bool CanReload();
+
 private:
 	AAGFTWeapon();
 
