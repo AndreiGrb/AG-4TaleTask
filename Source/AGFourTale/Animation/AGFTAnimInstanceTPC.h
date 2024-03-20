@@ -86,7 +86,7 @@ private:
 	virtual void PlaySwitchWeaponAnimation() override;
 	virtual void WeaponSwitched() override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Settings")
 	TObjectPtr<UAnimMontage> SwitchWeaponMontage;
 
 	bool bIsWeaponSwitched;
@@ -95,7 +95,7 @@ private:
 	virtual void PlayReloadAnimation() override;
 	virtual void WeaponReloaded() override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Settings")
 	TObjectPtr<UAnimMontage> ReloadWeaponMontage;
 
 	bool bIsWeaponReloaded;
