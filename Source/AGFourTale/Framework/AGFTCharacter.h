@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -173,4 +174,10 @@ private:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_ReloadWeapon();
+
+	
+	FORCEINLINE virtual int32 GetCurrentHealth() const override
+	{
+		return HealthComponent->GetHealth();
+	}
 };

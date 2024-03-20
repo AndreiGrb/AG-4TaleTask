@@ -44,4 +44,7 @@ public:
 	virtual void ReloadWeapon();
 	//Called when animation for reloading is complete
 	virtual void ReloadWeaponAnimComplete();
+
+	//Check health of this pawn (if it has one)
+	virtual int32 GetCurrentHealth() const;
 };

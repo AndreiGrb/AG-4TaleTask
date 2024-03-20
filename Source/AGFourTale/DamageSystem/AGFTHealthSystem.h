@@ -16,6 +16,8 @@ public:
 	FOnDeath OnDeath;
 
 	void ReceiveDamage(const float Damage);
+
+	FORCEINLINE int32 GetHealth() const { return Health; }
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Settings")

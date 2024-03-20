@@ -9,6 +9,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
+#include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 
 
@@ -24,6 +25,8 @@ void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			TryPlayingDynamicCrosshairAnim(PawnInterface);
 
 			UpdateCurrentWeapon(PawnInterface);
+
+			UpdateHealth(PawnInterface);
 		}
 		else
 		{
@@ -132,4 +135,16 @@ void UAGFTWidgetHUD::UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInte
 
 	const FString& AmmoCount = FString::Printf(TEXT("%i/%i"), MagAmmoCount, WeaponAmmoCount);
 	Text_AmmoCount->SetText(FText::FromString(AmmoCount));
+}
+
+void UAGFTWidgetHUD::UpdateHealth(const IAGFTPawnInterface* PawnInterface)
+{
+	if (!PB_Health)
+	{
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::UpdateHealth] PB_ProgressBar is not bound to widget!"));
+		return;
+	}
+
+	const int32 Health = PawnInterface->GetCurrentHealth();
+	PB_Health->SetPercent(Health / 100.f);
 }

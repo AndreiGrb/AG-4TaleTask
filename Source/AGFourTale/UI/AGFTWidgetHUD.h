@@ -5,6 +5,7 @@
 #include "Components/TextBlock.h"
 #include "AGFTWidgetHUD.generated.h"
 
+class UProgressBar;
 class AAGFTWeapon;
 class IAGFTPawnInterface;
 class UTextBlock;
@@ -47,4 +48,10 @@ private:
 	TObjectPtr<UTextBlock> Text_AmmoCount;
 
 	void UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface, const AAGFTWeapon* CurrentWeapon);
+
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
+	TObjectPtr<UProgressBar> PB_Health;
+	
+	void UpdateHealth(const IAGFTPawnInterface* PawnInterface);
 };
