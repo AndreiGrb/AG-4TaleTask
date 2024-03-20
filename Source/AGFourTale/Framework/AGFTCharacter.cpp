@@ -289,25 +289,29 @@ void AAGFTCharacter::SwitchWeaponsPressed()
 
 void AAGFTCharacter::SwitchWeapons()
 {
-	const TSubclassOf<AActor> FirstWeapon = CurrentWeaponComponent->GetChildActorClass();
-	const TSubclassOf<AActor> SecondWeapon = SecondWeaponComponent->GetChildActorClass();
-
-	int32 MagAmmoCount;
-	int32 WeaponAmmoCount;
-
-	auto WeaponInstance = Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
-	WeaponInstance->GetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+	const TSubclassOf<AActor> FirstWeaponClass = CurrentWeaponComponent->GetChildActorClass();
+	const TSubclassOf<AActor> SecondWeaponClass = SecondWeaponComponent->GetChildActorClass();
 	
-	CurrentWeaponComponent->SetChildActorClass(SecondWeapon);
+	int32 FirstMagAmmoCount, FirstWeaponAmmoCount;
+	int32 SecondMagAmmoCount, SecondWeaponAmmoCount;
+
+	//Get second weapon's ammo count
+	auto WeaponInstance = Cast<AAGFTWeapon>(SecondWeaponComponent->GetChildActor());
+	WeaponInstance->GetAmmoCount(SecondMagAmmoCount, SecondWeaponAmmoCount);
+
+	//Get first weapon's ammo count
 	WeaponInstance = Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
-	WeaponInstance->SetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+	WeaponInstance->GetAmmoCount(FirstMagAmmoCount, FirstWeaponAmmoCount);
 
+	//Set second weapon as first weapon and apply it's ammo count
+	CurrentWeaponComponent->SetChildActorClass(SecondWeaponClass);
+	WeaponInstance = Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
+	WeaponInstance->SetAmmoCount(SecondMagAmmoCount, SecondWeaponAmmoCount);
+
+	//Set first weapon as second weapon and apply it's ammo count
+	SecondWeaponComponent->SetChildActorClass(FirstWeaponClass);
 	WeaponInstance = Cast<AAGFTWeapon>(SecondWeaponComponent->GetChildActor());
-	WeaponInstance->GetAmmoCount(MagAmmoCount, WeaponAmmoCount);
-	
-	SecondWeaponComponent->SetChildActorClass(FirstWeapon);
-	WeaponInstance = Cast<AAGFTWeapon>(SecondWeaponComponent->GetChildActor());
-	WeaponInstance->SetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+	WeaponInstance->SetAmmoCount(FirstMagAmmoCount, FirstWeaponAmmoCount);
 }
 
 void AAGFTCharacter::WeaponSwitchAnimComplete()
