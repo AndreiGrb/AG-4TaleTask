@@ -26,6 +26,8 @@ public:
 
 	void MatchIsOver();
 
+	FORCEINLINE float GetMatchTimeRemaining() const { return MatchTimeRemaining; }
+
 private:
 	AAGFTPlayerController();
 
