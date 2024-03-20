@@ -129,6 +129,11 @@ AAGFTWeapon* AAGFTCharacter::GetCurrentHoldingWeapon() const
 	return Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
 }
 
+void AAGFTCharacter::Client_ReceiveDamage_Implementation(const int32 Damage)
+{
+	HealthComponent->ReceiveDamage(Damage);
+}
+
 void AAGFTCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D MovementVector = Value.Get<FVector2D>();

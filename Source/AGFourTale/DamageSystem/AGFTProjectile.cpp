@@ -1,12 +1,12 @@
 ﻿#include "AGFTProjectile.h"
 
+#include "AGFTHealthSystem.h"
 #include "AGFourTale/Design/AGFTGameSettings.h"
+#include "AGFourTale/Framework/AGFTPlayerController.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
 #include "AGFourTale/Utils/AGFTNames.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 
 AAGFTProjectile::AAGFTProjectile()
@@ -42,7 +42,6 @@ void AAGFTProjectile::BeginPlay()
 	}
 
 	SphereCollisionComponent->OnComponentHit.AddDynamic(this, &AAGFTProjectile::OnProjectileHit);
-
 	FindProjectileConfigFromDT();
 }
 
@@ -50,6 +49,18 @@ void AAGFTProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor*
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	Destroy();
+
+	if (OtherActor->GetComponentByClass(UAGFTHealthSystem::StaticClass()))
+	{
+		/**	todo: this whole part with direct casting of player controller
+		/*	and direct cast of AGFTCharacter inside of it is rushed,
+		/*	so if I had more time, I would improve it */
+		const auto PlayerController = Cast<AAGFTPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (GetInstigatorController() == PlayerController)
+		{
+			PlayerController->Server_DamageOtherActor(OtherActor, ProjectileConfig.Damage);
+		}
+	}
 }
 
 void AAGFTProjectile::FindProjectileConfigFromDT()

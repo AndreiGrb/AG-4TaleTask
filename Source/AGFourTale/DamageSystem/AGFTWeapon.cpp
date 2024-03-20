@@ -48,6 +48,7 @@ void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& 
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();
+	SpawnParameters.Instigator = Cast<APawn>(GetRootComponent()->GetAttachParentActor());
 	
 	for (int32 i = 0; i < WeaponConfig.NumberOfProjectilesPerShot; i++)
 	{

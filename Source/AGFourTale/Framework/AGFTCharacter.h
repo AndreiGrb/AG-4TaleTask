@@ -24,6 +24,10 @@ public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	
+	UFUNCTION(Client, Reliable)
+	void Client_ReceiveDamage(const int32 Damage);
+
 private:
 	AAGFTCharacter();
 
