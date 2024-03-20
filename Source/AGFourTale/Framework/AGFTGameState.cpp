@@ -11,6 +11,8 @@ void AAGFTGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(AAGFTGameState, bMatchStarted);
 	DOREPLIFETIME(AAGFTGameState, bMatchIsOver);
 	DOREPLIFETIME(AAGFTGameState, RespawnDuration);
+	DOREPLIFETIME(AAGFTGameState, KillsToWin);
+	DOREPLIFETIME(AAGFTGameState, WinnerID);
 }
 
 void AAGFTGameState::OnRep_MatchStarted()

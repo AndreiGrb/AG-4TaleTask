@@ -1,6 +1,7 @@
 #include "AGFTGameMode.h"
 
 #include "AGFTGameState.h"
+#include "AGFTPlayerState.h"
 #include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "GameFramework/PlayerState.h"
@@ -22,12 +23,19 @@ void AAGFTGameMode::Tick(float DeltaSeconds)
 
 void AAGFTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
+	NewPlayerIndex++;
+	
 	if (GetNumPlayers() > 1)
 	{
 		StartMatch();
 	}
-	if (GetNumPlayers() < 4) //Only support 4 players. Other players will be spectators
+	if (GetNumPlayers() <= 4) //Only support 4 players. Other players will be spectators
 	{
+		const auto PlayerState = NewPlayer->GetPlayerState<AAGFTPlayerState>();
+		
+		PlayerState->SetPlayerName(FString::Printf(TEXT("Player %i"), NewPlayerIndex));
+		PlayerState->SetPlayerId(NewPlayerIndex);
+		
 		Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 	}
 }
@@ -53,6 +61,7 @@ void AAGFTGameMode::StartMatch()
 	const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
 	AGFTGameState->bMatchStarted = true;
 	AGFTGameState->RespawnDuration = RespawnTimer;
+	AGFTGameState->KillsToWin = KillsToWin;
 
 	if (IsNetMode(NM_ListenServer))
 	{
@@ -66,18 +75,25 @@ void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 	{
 		return;
 	}
-		
+
+	int32 PlayerID;
+	const int32 CurrentHighestAmountOfKills = GetHighestAmountOfKill(PlayerID);
+	
 	DurationOfMatch -= DeltaSeconds;
 
-	if (DurationOfMatch < 0.f)
+	if ((DurationOfMatch < 0.f || CurrentHighestAmountOfKills >= KillsToWin) && !bMatchIsOver)
 	{
-		DurationOfMatch = 10000.f;
+		bMatchIsOver = true;
+		
 		GetWorldTimerManager().SetTimer(MatchIsOverTimerHandle, this,
-										&AAGFTGameMode::MatchIsOver,
+										&AAGFTGameMode::RestartLevel,
 										WaitTimeAfterMatchIsOver);
 
+		const int32 WinnerID = DetermineWinner();
+		
 		const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
-		GetGameState<AAGFTGameState>()->bMatchIsOver = true;
+		AGFTGameState->bMatchIsOver = true;
+		AGFTGameState->WinnerID = WinnerID;
 
 		if (IsNetMode(NM_ListenServer))
 		{
@@ -88,8 +104,14 @@ void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 
 void AAGFTGameMode::PlayerDied(AActor* DeadActor, APlayerState* DamageInstigator)
 {
-	APlayerState* PlayerState = Cast<APawn>(DeadActor)->GetPlayerState();
+	AAGFTPlayerState* PlayerState = Cast<APawn>(DeadActor)->GetPlayerState<AAGFTPlayerState>();
 	PlayersWaitingForRespawn.Add(PlayerState, RespawnTimer);
+
+	if (bIsMatchStarted && !bMatchIsOver)
+	{
+		PlayerState->NumberOfDeaths++;
+		Cast<AAGFTPlayerState>(DamageInstigator)->NumberOfKills++;
+	}
 }
 
 void AAGFTGameMode::HandleRespawnTimers(const float DeltaSeconds)
@@ -129,7 +151,34 @@ void AAGFTGameMode::RespawnPlayer(const APlayerState* DeadPlayer)
 	DeadPlayer->GetPawn()->SetActorLocation(PlayerStart->GetActorLocation());
 }
 
-void AAGFTGameMode::MatchIsOver()
+void AAGFTGameMode::RestartLevel()
 {
 	GetWorld()->ServerTravel("?Restart",false);
+}
+
+int32 AAGFTGameMode::GetHighestAmountOfKill(int32& PlayerID) const
+{
+	const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
+
+	int32 HighestKillCount = -1;
+	for (TObjectPtr<APlayerState> PlayerState : AGFTGameState->PlayerArray)
+	{
+		const auto AGFTPlayerState = Cast<AAGFTPlayerState>(PlayerState);
+
+		if (AGFTPlayerState->NumberOfKills > HighestKillCount)
+		{
+			HighestKillCount = AGFTPlayerState->NumberOfKills;
+			PlayerID = AGFTPlayerState->GetPlayerId();
+		}
+	}
+	
+	return HighestKillCount;
+}
+
+int32 AAGFTGameMode::DetermineWinner() const
+{
+	int32 WinnerID;
+	GetHighestAmountOfKill(WinnerID);
+	
+	return WinnerID;
 }

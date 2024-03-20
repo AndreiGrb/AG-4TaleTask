@@ -16,16 +16,22 @@ public:
 
 	UPROPERTY(ReplicatedUsing = OnRep_MatchIsOver)
 	bool bMatchIsOver;
-
-	UPROPERTY(Replicated)
-	float RespawnDuration;
-
-
+	
 	UFUNCTION()
 	void OnRep_MatchStarted();
 	
 	UFUNCTION()
 	void OnRep_MatchIsOver();
+
+
+	UPROPERTY(Replicated)
+	float RespawnDuration;
+
+	UPROPERTY(Replicated)
+	int32 KillsToWin;
+
+	UPROPERTY(Replicated)
+	int32 WinnerID;
 
 private:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

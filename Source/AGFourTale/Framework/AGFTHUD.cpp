@@ -20,6 +20,9 @@ void AAGFTHUD::OpenLeaderboard()
 			LeaderboardWeakPtr.Get()->AddToViewport();
 			return;
 		}
+
+		//Leaderboard must be closing now
+		LeaderboardWeakPtr.Get()->AbortClosing();
 		return;
 	}
 	

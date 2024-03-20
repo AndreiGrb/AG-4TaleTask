@@ -17,6 +17,8 @@ private:
 	
 	virtual void Tick(float DeltaSeconds) override;
 	
+
+	int32 NewPlayerIndex;
 	
 	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
@@ -51,6 +53,16 @@ private:
 
 	FTimerHandle MatchIsOverTimerHandle;
 
+	bool bMatchIsOver;
+	
 	UFUNCTION()
-	void MatchIsOver();
+	void RestartLevel();
+	
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	int32 KillsToWin = 10;
+
+	int32 GetHighestAmountOfKill(int32& IdOfThatPlayer) const;
+	
+	int32 DetermineWinner() const;
 };
