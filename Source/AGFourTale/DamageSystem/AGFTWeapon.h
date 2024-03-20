@@ -36,6 +36,8 @@ public:
 	
 	bool CanReload();
 
+	void Reload();
+
 private:
 	AAGFTWeapon();
 

@@ -81,6 +81,15 @@ bool AAGFTWeapon::CanReload()
 	return MagAmmoCount < WeaponConfig.MagAmmoCapacity && WeaponAmmoCount > 0;
 }
 
+void AAGFTWeapon::Reload()
+{
+	const int32 AmountNeeded = WeaponConfig.MagAmmoCapacity - MagAmmoCount;
+	const int32 AvailableAmmo = FMath::Min(WeaponAmmoCount, AmountNeeded);
+	
+	MagAmmoCount += AvailableAmmo;
+	WeaponAmmoCount -= AvailableAmmo;
+}
+
 AAGFTWeapon::AAGFTWeapon()
 {
 	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");

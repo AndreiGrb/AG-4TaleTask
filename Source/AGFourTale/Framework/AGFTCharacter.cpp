@@ -344,7 +344,7 @@ void AAGFTCharacter::ReloadWeaponPressed()
 
 void AAGFTCharacter::ReloadWeapon()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("AAGFTCharacter::ReloadWeapon"));
+	GetCurrentHoldingWeapon()->Reload();
 }
 
 void AAGFTCharacter::ReloadWeaponAnimComplete()
