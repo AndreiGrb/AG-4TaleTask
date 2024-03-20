@@ -9,6 +9,9 @@ class AAGFTGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
+	FORCEINLINE float GetMatchTime() const { return DurationOfMatch; }
+
 private:
 	AAGFTGameMode();
 	
@@ -20,6 +23,8 @@ private:
 	virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) override;
 	
 
+	void StartMatch();
+	
 	bool bIsMatchStarted;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
@@ -41,5 +46,11 @@ private:
 	void RespawnPlayer(const APlayerState* DeadPlayer);
 
 
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float WaitTimeAfterMatchIsOver = 5.f;
+
+	FTimerHandle MatchIsOverTimerHandle;
+
+	UFUNCTION()
 	void MatchIsOver();
 };

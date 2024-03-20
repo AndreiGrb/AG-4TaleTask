@@ -1,5 +1,6 @@
 #include "AGFTGameMode.h"
 
+#include "AGFTGameState.h"
 #include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "GameFramework/PlayerState.h"
@@ -23,7 +24,7 @@ void AAGFTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* Ne
 {
 	if (GetNumPlayers() > 1)
 	{
-		bIsMatchStarted = true;
+		StartMatch();
 	}
 	if (GetNumPlayers() < 4) //Only support 4 players. Other players will be spectators
 	{
@@ -45,6 +46,13 @@ APawn* AAGFTGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* Ne
 	return SpawnedPawn;
 }
 
+void AAGFTGameMode::StartMatch()
+{
+	bIsMatchStarted = true;
+
+	GetGameState<AAGFTGameState>()->bMatchStarted = true;
+}
+
 void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 {
 	if (!bIsMatchStarted)
@@ -56,7 +64,12 @@ void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 
 	if (DurationOfMatch < 0.f)
 	{
-		MatchIsOver();
+		DurationOfMatch = 10000.f;
+		GetWorldTimerManager().SetTimer(MatchIsOverTimerHandle, this,
+										&AAGFTGameMode::MatchIsOver,
+										WaitTimeAfterMatchIsOver);
+
+		GetGameState<AAGFTGameState>()->bMatchIsOver = true;
 	}
 }
 
