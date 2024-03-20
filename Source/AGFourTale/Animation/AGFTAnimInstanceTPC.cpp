@@ -137,7 +137,10 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(InAnimInstance->CharacterOwner))
 	{
 		bIsAiming = PawnInterface->IsAiming();
-		bIsDead = PawnInterface->GetHealthComponent()->IsDead();
+		if (PawnInterface->GetHealthComponent())
+		{
+			bIsDead = PawnInterface->GetHealthComponent()->IsDead();
+		}
 	}
 }
 
