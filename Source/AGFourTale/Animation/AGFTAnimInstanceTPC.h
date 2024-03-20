@@ -69,6 +69,8 @@ class AGFOURTALE_API UAGFTAnimInstanceTPC : public UAnimInstance, public IAGFTAn
 
 private:
 	virtual void NativeInitializeAnimation() override;
+
+	virtual void NativeBeginPlay() override;
 	
 
 	//Has EditAnywhere, but values inside proxy should not be changed in Details. Only for change in Preview

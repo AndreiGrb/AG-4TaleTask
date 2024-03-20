@@ -16,6 +16,11 @@ void UAGFTAnimInstanceTPC::NativeInitializeAnimation()
 		CharacterOwner = Character;
 		MovementComponent = Character->GetCharacterMovement();
 	}
+}
+
+void UAGFTAnimInstanceTPC::NativeBeginPlay()
+{
+	Super::NativeBeginPlay();
 
 	OnMontageEnded.AddDynamic(this, &UAGFTAnimInstanceTPC::MontageEnded);
 }
