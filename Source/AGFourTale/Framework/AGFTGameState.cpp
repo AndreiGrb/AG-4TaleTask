@@ -24,5 +24,8 @@ void AAGFTGameState::OnRep_MatchStarted()
 
 void AAGFTGameState::OnRep_MatchIsOver()
 {
-	
+	if (AAGFTPlayerController* PlayerController = Cast<AAGFTPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		PlayerController->MatchIsOver();
+	}
 }

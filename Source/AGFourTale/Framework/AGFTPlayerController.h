@@ -24,6 +24,8 @@ public:
 	UFUNCTION(Client, Reliable)
 	void Client_CurrentMatchTime(const float CurrentTime);
 
+	void MatchIsOver();
+
 private:
 	AAGFTPlayerController();
 

@@ -11,5 +11,6 @@ class AGFOURTALE_API UAGFTLeaderboard : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintImplementableEvent)
 	void CloseLeaderboard();
 };

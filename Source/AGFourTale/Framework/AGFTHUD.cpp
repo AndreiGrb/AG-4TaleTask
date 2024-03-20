@@ -3,7 +3,6 @@
 #include "AGFourTale/UI/AGFTLeaderboard.h"
 #include "AGFourTale/UI/AGFTWidgetHUD.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
-#include "Blueprint/WidgetBlueprintLibrary.h"
 
 
 void AAGFTHUD::OpenLeaderboard()
@@ -13,9 +12,15 @@ void AAGFTHUD::OpenLeaderboard()
 		UE_LOG(LogHUD, Error, TEXT("[AAGFTHUD::CreateLeaderboard] LeaderboardClass == nullptr"));
 		return;
 	}
+
+	if (IsValid(LeaderboardWeakPtr.Get()))
+	{
+		LeaderboardWeakPtr.Get()->AddToViewport();
+	}
 	
 	if (const auto Leaderboard = CreateWidget<UAGFTLeaderboard>(GetWorld(), LeaderboardClass))
 	{
+		LeaderboardWeakPtr = Leaderboard;
 		Leaderboard->AddToViewport();
 	}
 	else
@@ -26,12 +31,9 @@ void AAGFTHUD::OpenLeaderboard()
 
 void AAGFTHUD::CloseLeaderboard()
 {
-	TArray<UUserWidget*> FoundWidgets;
-	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(this, FoundWidgets, UAGFTLeaderboard::StaticClass());
-
-	if (FoundWidgets.Num())
+	if (IsValid(LeaderboardWeakPtr.Get()))
 	{
-		Cast<UAGFTLeaderboard>(FoundWidgets[0])->CloseLeaderboard();
+		LeaderboardWeakPtr.Get()->CloseLeaderboard();
 	}
 }
 

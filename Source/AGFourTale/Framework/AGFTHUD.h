@@ -25,6 +25,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	TSubclassOf<UAGFTWidgetHUD> WidgetHUDClass;
 
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	TSubclassOf<UAGFTLeaderboard> LeaderboardClass;
+
+	TWeakObjectPtr<UAGFTLeaderboard> LeaderboardWeakPtr;
 };

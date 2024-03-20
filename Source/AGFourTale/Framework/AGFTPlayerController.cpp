@@ -32,6 +32,16 @@ void AAGFTPlayerController::Client_CurrentMatchTime_Implementation(const float C
 	MatchTimeRemaining = CurrentTime + GetPlayerState<APlayerState>()->ExactPing;
 }
 
+void AAGFTPlayerController::MatchIsOver()
+{
+	DisableInput(this);
+
+	if (const auto HUD = Cast<AAGFTHUD>(GetHUD()))
+	{	//Open leaderboard until map restarted
+		HUD->OpenLeaderboard();
+	}
+}
+
 AAGFTPlayerController::AAGFTPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
