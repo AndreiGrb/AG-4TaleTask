@@ -19,5 +19,5 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	int32 Health;
+	int32 Health = 100.f;
 };
