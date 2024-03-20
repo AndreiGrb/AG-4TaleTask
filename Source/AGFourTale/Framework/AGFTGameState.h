@@ -17,6 +17,9 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_MatchIsOver)
 	bool bMatchIsOver;
 
+	UPROPERTY(Replicated)
+	float RespawnDuration;
+
 private:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

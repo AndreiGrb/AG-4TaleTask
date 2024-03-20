@@ -25,6 +25,8 @@ protected:
 	void PlayWeaponFiredAnim();
 
 private:
+	virtual void NativeConstruct() override;
+	
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	void MoveCrosshair(const IAGFTPawnInterface* PawnInterface);
@@ -54,4 +56,15 @@ private:
 	TObjectPtr<UProgressBar> PB_Health;
 	
 	void UpdateHealth(const IAGFTPawnInterface* PawnInterface);
+
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
+	TObjectPtr<UTextBlock> Text_RespawnTimer;
+
+	UFUNCTION()
+	void ShowRespawnTimer(AActor* DeadActor, APlayerState* DamageInstigator);
+
+	void UpdateRespawnTimer(float DeltaTime);
+
+	float TimeUntilRespawn;
 };

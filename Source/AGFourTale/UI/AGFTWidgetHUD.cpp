@@ -3,6 +3,7 @@
 #include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Design/AGFTGameSettings.h"
+#include "AGFourTale/Framework/AGFTGameState.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTDebugLibrary.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
@@ -13,6 +14,16 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 
+
+void UAGFTWidgetHUD::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(GetOwningPlayerPawn()))
+	{
+		PawnInterface->GetHealthComponent()->OnDeath.AddDynamic(this, &UAGFTWidgetHUD::ShowRespawnTimer);
+	}
+}
 
 void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
@@ -38,6 +49,8 @@ void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	{
 		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::NativeTick] OwningPlayer's Pawn is not inherited by PawnInterface"));
 	}
+
+	UpdateRespawnTimer(InDeltaTime);
 }
 
 void UAGFTWidgetHUD::MoveCrosshair(const IAGFTPawnInterface* PawnInterface)
@@ -150,5 +163,29 @@ void UAGFTWidgetHUD::UpdateHealth(const IAGFTPawnInterface* PawnInterface)
 	{
 		const int32 Health = HealthComponent->GetCurrentHealth();
 		PB_Health->SetPercent(Health / 100.f);
+	}
+}
+
+void UAGFTWidgetHUD::ShowRespawnTimer(AActor* DeadActor, APlayerState* DamageInstigator)
+{
+	TimeUntilRespawn = Cast<AAGFTGameState>(GetWorld()->GetGameState())->RespawnDuration;
+	Text_RespawnTimer->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+}
+
+void UAGFTWidgetHUD::UpdateRespawnTimer(float DeltaTime)
+{
+	if (TimeUntilRespawn < 0.f)
+	{
+		return;
+	}
+	
+	TimeUntilRespawn -= DeltaTime;
+	const int32 SecondsUntilRespawn = FMath::RoundToInt32(TimeUntilRespawn);
+	const FString& TimerText = FString::Printf(TEXT("Respawn in %i..."), SecondsUntilRespawn);
+	Text_RespawnTimer->SetText(FText::FromString(TimerText));
+
+	if (SecondsUntilRespawn < 1)
+	{
+		Text_RespawnTimer->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

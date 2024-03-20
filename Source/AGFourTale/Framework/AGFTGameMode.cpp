@@ -50,7 +50,9 @@ void AAGFTGameMode::StartMatch()
 {
 	bIsMatchStarted = true;
 
-	GetGameState<AAGFTGameState>()->bMatchStarted = true;
+	const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
+	AGFTGameState->bMatchStarted = true;
+	AGFTGameState->RespawnDuration = RespawnTimer;
 }
 
 void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
