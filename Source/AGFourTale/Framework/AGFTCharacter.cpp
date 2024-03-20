@@ -166,7 +166,7 @@ void AAGFTCharacter::ShootPressed()
 		return;
 	}
 
-	Weapon->OnWeaponFired.AddDynamic(this, &AAGFTCharacter::Server_Shoot);
+	Weapon->OnWeaponFired_ForServer.AddDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootPressed();
 
 	SetOrientationLock(true);
@@ -181,7 +181,7 @@ void AAGFTCharacter::ShootReleased()
 		return;
 	}
 
-	Weapon->OnWeaponFired.RemoveDynamic(this, &AAGFTCharacter::Server_Shoot);
+	Weapon->OnWeaponFired_ForServer.RemoveDynamic(this, &AAGFTCharacter::Server_Shoot);
 	Weapon->ShootReleased();
 
 	SetOrientationLock(false);

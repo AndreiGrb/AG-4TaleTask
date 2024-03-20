@@ -7,7 +7,8 @@
 
 class AAGFTProjectile;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnWeaponFired, TSubclassOf<AAGFTWeapon>, WeaponClass, const FVector&, ShootLocation, const FRotator&, ShootRotation);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnWeaponFired_ForServer, TSubclassOf<AAGFTWeapon>, WeaponClass, const FVector&, ShootLocation, const FRotator&, ShootRotation);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWeaponFired);
 
 UCLASS()
 class AGFOURTALE_API AAGFTWeapon : public AActor
@@ -20,6 +21,7 @@ public:
 	
 	void ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation);
 	
+	FOnWeaponFired_ForServer OnWeaponFired_ForServer;
 	FOnWeaponFired OnWeaponFired;
 
 

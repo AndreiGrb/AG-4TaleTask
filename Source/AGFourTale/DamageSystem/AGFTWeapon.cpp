@@ -42,8 +42,9 @@ void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& 
 {
 	if (IsNetMode(NM_Client))
 	{
-		OnWeaponFired.Broadcast(GetClass(), ShootLocation, ShootRotation);
+		OnWeaponFired_ForServer.Broadcast(GetClass(), ShootLocation, ShootRotation);
 	}
+	OnWeaponFired.Broadcast();
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = GetOwner();

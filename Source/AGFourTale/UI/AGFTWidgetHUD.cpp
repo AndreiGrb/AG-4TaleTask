@@ -23,7 +23,7 @@ void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			MoveCrosshair(PawnInterface);
 			TryPlayingDynamicCrosshairAnim(PawnInterface);
 
-			UpdateWeaponNameAndCount(PawnInterface);
+			UpdateCurrentWeapon(PawnInterface);
 		}
 		else
 		{
@@ -91,7 +91,30 @@ void UAGFTWidgetHUD::TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* Pa
 	}
 }
 
-void UAGFTWidgetHUD::UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface)
+void UAGFTWidgetHUD::UpdateCurrentWeapon(const IAGFTPawnInterface* PawnInterface)
+{
+	AAGFTWeapon* Weapon = PawnInterface->GetCurrentHoldingWeapon();
+	if (!IsValid(Weapon))
+	{
+		return;
+	}
+	
+	if (CurrentWeaponWeakPtr != Weapon)
+	{
+		AAGFTWeapon* PreviousWeapon = CurrentWeaponWeakPtr.Get();
+		if (IsValid(PreviousWeapon))
+		{
+			PreviousWeapon->OnWeaponFired.RemoveDynamic(this, &UAGFTWidgetHUD::PlayWeaponFiredAnim);
+		}
+		CurrentWeaponWeakPtr = Weapon;
+		
+		Weapon->OnWeaponFired.AddDynamic(this, &UAGFTWidgetHUD::PlayWeaponFiredAnim);
+	}
+	
+	UpdateWeaponNameAndCount(PawnInterface, Weapon);
+}
+
+void UAGFTWidgetHUD::UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface, const AAGFTWeapon* CurrentWeapon)
 {
 	if (!Text_WeaponName || !Text_AmmoCount)
 	{

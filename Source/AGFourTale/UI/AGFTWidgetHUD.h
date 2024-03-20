@@ -5,6 +5,7 @@
 #include "Components/TextBlock.h"
 #include "AGFTWidgetHUD.generated.h"
 
+class AAGFTWeapon;
 class IAGFTPawnInterface;
 class UTextBlock;
 class UCanvasPanel;
@@ -18,6 +19,9 @@ class AGFOURTALE_API UAGFTWidgetHUD : public UUserWidget
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlayShowDynamicCrosshairAnim(const bool bPlayForwardAnimation);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayWeaponFiredAnim();
 
 private:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
@@ -30,6 +34,11 @@ private:
 
 	void TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* PawnInterface);
 
+	
+	void UpdateCurrentWeapon(const IAGFTPawnInterface* PawnInterface);
+	
+	TWeakObjectPtr<AAGFTWeapon> CurrentWeaponWeakPtr;
+	
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
 	TObjectPtr<UTextBlock> Text_WeaponName;
@@ -37,5 +46,5 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
 	TObjectPtr<UTextBlock> Text_AmmoCount;
 
-	void UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface);
+	void UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface, const AAGFTWeapon* CurrentWeapon);
 };
