@@ -1,6 +1,7 @@
 ﻿#include "AGFTAnimInstanceTPC.h"
 
 #include "KismetAnimationLibrary.h"
+#include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "AGFourTale/Utils/AGFTFunctionLibrary.h"
 #include "GameFramework/Character.h"
@@ -82,16 +83,6 @@ void UAGFTAnimInstanceTPC::WeaponReloaded()
 	}
 }
 
-void UAGFTAnimInstanceTPC::PlayDeathAnimation()
-{
-	if (!ReloadWeaponMontage)
-	{
-		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlayReloadAnimation] ReloadWeaponMontage == nullptr"));
-	}
-	
-	Montage_Play(DeathMontage);
-}
-
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
 void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
@@ -146,6 +137,7 @@ void FAGFTAnimInstanceTPC_Proxy::UpdateValuesFromAnimInstance(const UAGFTAnimIns
 	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(InAnimInstance->CharacterOwner))
 	{
 		bIsAiming = PawnInterface->IsAiming();
+		bIsDead = PawnInterface->GetHealthComponent()->IsDead();
 	}
 }
 

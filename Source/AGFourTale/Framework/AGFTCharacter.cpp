@@ -59,7 +59,7 @@ AAGFTCharacter::AAGFTCharacter()
 	SecondWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("SecondWeapon");
 	SecondWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_SECOND_ATTACHMENT);
 
-	HealthComponent = CreateDefaultSubobject<UAGFTHealthSystem>("HealthComponent");
+	HealthComponent = CreateDefaultSubobject<UAGFTHealthComponent>("HealthComponent");
 }
 
 void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -103,6 +103,8 @@ void AAGFTCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	DefaultMaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
+	HealthComponent->OnDeath.AddDynamic(this, &AAGFTCharacter::Death);
 }
 
 void AAGFTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -360,6 +362,28 @@ void AAGFTCharacter::ReloadWeapon()
 void AAGFTCharacter::ReloadWeaponAnimComplete()
 {
 	bIsReloading = false;
+}
+
+void AAGFTCharacter::Death()
+{
+	if (IsLocallyControlled())
+	{
+		DisableInput(GetController<APlayerController>());
+		Server_Death();
+	}
+}
+
+void AAGFTCharacter::Server_Death_Implementation()
+{
+	Multicast_Death();
+}
+
+void AAGFTCharacter::Multicast_Death_Implementation()
+{
+	if (!IsLocallyControlled())
+	{
+		HealthComponent->ReceiveDamage(10000);
+	}
 }
 
 void AAGFTCharacter::Server_ReloadWeapon_Implementation()

@@ -7,7 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "AGFTCharacter.generated.h"
 
-class UAGFTHealthSystem;
+class UAGFTHealthComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -73,7 +73,7 @@ private:
 
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAGFTHealthSystem> HealthComponent;
+	TObjectPtr<UAGFTHealthComponent> HealthComponent;
 
 	
 	UPROPERTY(EditAnywhere, Category = Input)
@@ -180,8 +180,17 @@ private:
 	void Multicast_ReloadWeapon();
 
 	
-	FORCEINLINE virtual int32 GetCurrentHealth() const override
+	FORCEINLINE virtual UAGFTHealthComponent* GetHealthComponent() const override
 	{
-		return HealthComponent->GetHealth();
+		return HealthComponent;
 	}
+
+	UFUNCTION()
+	void Death();
+
+	UFUNCTION(Server, Reliable)
+	void Server_Death();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_Death();
 };

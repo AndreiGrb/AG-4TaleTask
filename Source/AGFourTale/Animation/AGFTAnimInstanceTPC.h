@@ -29,6 +29,9 @@ private:
 	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	bool bIsAiming = false;
 
+	UPROPERTY(Transient, BlueprintReadOnly, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	bool bIsDead = false;
+
 	FVector Velocity = FVector::ZeroVector;
 	FVector CurrentAcceleration = FVector::ZeroVector;
 	float MoveThreshold = 0.f;
