@@ -16,7 +16,7 @@ void AAGFTWeapon::ShootPressed()
 
 	bIsShootPressed = true;
 
-	if (bIsInCooldown)
+	if (bIsInCooldown || MagAmmoCount < 1)
 	{
 		return;
 	}
@@ -29,6 +29,8 @@ void AAGFTWeapon::ShootPressed()
 	GetWorldTimerManager().SetTimer(CooldownBetweenShotsTimerHandle, this,
 										&AAGFTWeapon::CooldownBetweenShotsExpired,
 										WeaponConfig.FireRate);
+
+	MagAmmoCount--;
 }
 
 void AAGFTWeapon::ShootReleased()

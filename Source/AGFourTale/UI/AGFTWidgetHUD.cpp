@@ -22,6 +22,8 @@ void UAGFTWidgetHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		{
 			MoveCrosshair(PawnInterface);
 			TryPlayingDynamicCrosshairAnim(PawnInterface);
+
+			UpdateWeaponNameAndCount(PawnInterface);
 		}
 		else
 		{
@@ -87,4 +89,24 @@ void UAGFTWidgetHUD::TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* Pa
 	{	//Orientation unlocked OR can't shoot = hide crosshair
 		PlayShowDynamicCrosshairAnim(false);
 	}
+}
+
+void UAGFTWidgetHUD::UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface)
+{
+	if (!Text_WeaponName || !Text_AmmoCount)
+	{
+		UE_LOG(LogHUD, Error, TEXT("[UAGFTWidgetHUD::UpdateWeaponNameAndCount] Text is not bound to widgets!"));
+		return;
+	}
+
+	AAGFTWeapon* Weapon = PawnInterface->GetCurrentHoldingWeapon();
+
+	const FName& WeaponName = Weapon->GetWeaponConfigRowHandle().RowName;
+	Text_WeaponName->SetText(FText::FromName(WeaponName));
+
+	int32 MagAmmoCount, WeaponAmmoCount;
+	Weapon->GetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+
+	const FString& AmmoCount = FString::Printf(TEXT("%i/%i"), MagAmmoCount, WeaponAmmoCount);
+	Text_AmmoCount->SetText(FText::FromString(AmmoCount));
 }

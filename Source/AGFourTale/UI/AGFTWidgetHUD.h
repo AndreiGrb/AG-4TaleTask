@@ -29,4 +29,13 @@ private:
 	TObjectPtr<UTextBlock> DynamicCrosshair;
 
 	void TryPlayingDynamicCrosshairAnim(const IAGFTPawnInterface* PawnInterface);
+
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
+	TObjectPtr<UTextBlock> Text_WeaponName;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget = "true", AllowPrivateAccess = "true"))
+	TObjectPtr<UTextBlock> Text_AmmoCount;
+
+	void UpdateWeaponNameAndCount(const IAGFTPawnInterface* PawnInterface);
 };

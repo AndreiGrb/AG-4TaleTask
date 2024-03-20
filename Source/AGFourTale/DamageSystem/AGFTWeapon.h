@@ -27,6 +27,10 @@ public:
 	//Should only be called on weapon switch
 	void SetAmmoCount(const int32 CurrentMagAmmoCount, const int32 CurrentWeaponAmmoCount);
 
+
+	FORCEINLINE const FDataTableRowHandle& GetWeaponConfigRowHandle() const { return WeaponConfigDTRowHandle; }
+	FORCEINLINE const FAGFTWeaponConfig& GetWeaponConfig() const { return WeaponConfig; }
+
 private:
 	AAGFTWeapon();
 
