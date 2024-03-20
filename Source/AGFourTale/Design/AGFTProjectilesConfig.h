@@ -13,9 +13,9 @@ struct FAGFTProjectileConfig : public FTableRowBase
 
 public:
     FAGFTProjectileConfig()
-    : Damage(35.f)
+    : Damage(35)
     {}
     
-    UPROPERTY(EditAnywhere, meta = (ClampMin = 0.f))
-    float Damage;
+    UPROPERTY(EditAnywhere, meta = (ClampMin = 0))
+    int32 Damage;
 };

@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "AGFourTale/Animation/AGFTAnimInterface.h"
+#include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Utils/AGFTLogCategories.h"
@@ -57,6 +58,8 @@ AAGFTCharacter::AAGFTCharacter()
 
 	SecondWeaponComponent = CreateDefaultSubobject<UChildActorComponent>("SecondWeapon");
 	SecondWeaponComponent->SetupAttachment(GetMesh(), SOCKETNAME_WEAPON_SECOND_ATTACHMENT);
+
+	HealthComponent = CreateDefaultSubobject<UAGFTHealthSystem>("HealthComponent");
 }
 
 void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

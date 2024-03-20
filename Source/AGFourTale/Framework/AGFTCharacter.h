@@ -6,6 +6,7 @@
 #include "Logging/LogMacros.h"
 #include "AGFTCharacter.generated.h"
 
+class UAGFTHealthSystem;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -64,6 +65,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UChildActorComponent> SecondWeaponComponent;
+
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UAGFTHealthSystem> HealthComponent;
 
 	
 	UPROPERTY(EditAnywhere, Category = Input)
