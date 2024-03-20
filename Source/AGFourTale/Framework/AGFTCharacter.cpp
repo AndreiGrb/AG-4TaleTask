@@ -291,9 +291,23 @@ void AAGFTCharacter::SwitchWeapons()
 {
 	const TSubclassOf<AActor> FirstWeapon = CurrentWeaponComponent->GetChildActorClass();
 	const TSubclassOf<AActor> SecondWeapon = SecondWeaponComponent->GetChildActorClass();
+
+	int32 MagAmmoCount;
+	int32 WeaponAmmoCount;
+
+	auto WeaponInstance = Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
+	WeaponInstance->GetAmmoCount(MagAmmoCount, WeaponAmmoCount);
 	
 	CurrentWeaponComponent->SetChildActorClass(SecondWeapon);
+	WeaponInstance = Cast<AAGFTWeapon>(CurrentWeaponComponent->GetChildActor());
+	WeaponInstance->SetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+
+	WeaponInstance = Cast<AAGFTWeapon>(SecondWeaponComponent->GetChildActor());
+	WeaponInstance->GetAmmoCount(MagAmmoCount, WeaponAmmoCount);
+	
 	SecondWeaponComponent->SetChildActorClass(FirstWeapon);
+	WeaponInstance = Cast<AAGFTWeapon>(SecondWeaponComponent->GetChildActor());
+	WeaponInstance->SetAmmoCount(MagAmmoCount, WeaponAmmoCount);
 }
 
 void AAGFTCharacter::WeaponSwitchAnimComplete()

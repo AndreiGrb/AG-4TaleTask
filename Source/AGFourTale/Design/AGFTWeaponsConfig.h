@@ -16,7 +16,7 @@ public:
     FAGFTWeaponConfig()
     : bIsAutomatic(false)
     , FireRate(1.f)
-    , MaxAmmoCapacity(1)
+    , MagAmmoCapacity(1)
     , SpawnWithExtraMagazines(0)
     , ProjectileClass(nullptr)
     , NumberOfProjectilesPerShot(1)
@@ -31,7 +31,7 @@ public:
     float FireRate;
 
     UPROPERTY(EditAnywhere, meta = (ClampMin = 1))
-    int32 MaxAmmoCapacity;
+    int32 MagAmmoCapacity;
 
     UPROPERTY(EditAnywhere, meta = (ClampMin = 0))
     int32 SpawnWithExtraMagazines;

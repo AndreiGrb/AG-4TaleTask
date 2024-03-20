@@ -19,9 +19,13 @@ public:
 	void ShootReleased();
 	
 	void ShootProjectile(const FVector& ShootLocation, const FRotator& ShootRotation);
-
 	
 	FOnWeaponFired OnWeaponFired;
+
+
+	void GetAmmoCount(int32& CurrentMagAmmoCount, int32& CurrentWeaponAmmoCount);
+	//Should only be called on weapon switch
+	void SetAmmoCount(const int32 CurrentMagAmmoCount, const int32 CurrentWeaponAmmoCount);
 
 private:
 	AAGFTWeapon();
@@ -39,6 +43,13 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 	FDataTableRowHandle WeaponConfigDTRowHandle;
+
+
+	void InitAmmoCount();
+
+	//todo: make a struct, if more variables are added beside ammo
+	int32 MagAmmoCount;
+	int32 WeaponAmmoCount;
 
 
 	FTimerHandle CooldownBetweenShotsTimerHandle;

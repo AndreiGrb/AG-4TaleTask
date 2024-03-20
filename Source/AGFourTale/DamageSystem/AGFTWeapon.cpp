@@ -61,6 +61,18 @@ void AAGFTWeapon::ShootProjectile(const FVector& ShootLocation, const FRotator& 
 	}
 }
 
+void AAGFTWeapon::GetAmmoCount(int32& CurrentMagAmmoCount, int32& CurrentWeaponAmmoCount)
+{
+	CurrentMagAmmoCount = MagAmmoCount;
+	CurrentWeaponAmmoCount = WeaponAmmoCount;
+}
+
+void AAGFTWeapon::SetAmmoCount(const int32 NewMagAmmoCount, const int32 NewWeaponAmmoCount)
+{
+	MagAmmoCount = NewMagAmmoCount;
+	WeaponAmmoCount = NewWeaponAmmoCount;
+}
+
 AAGFTWeapon::AAGFTWeapon()
 {
 	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
@@ -72,6 +84,8 @@ void AAGFTWeapon::BeginPlay()
 	Super::BeginPlay();
 
 	FindWeaponConfigFromDT();
+
+	InitAmmoCount();
 }
 
 void AAGFTWeapon::FindWeaponConfigFromDT()
@@ -90,6 +104,12 @@ void AAGFTWeapon::FindWeaponConfigFromDT()
 		}
 		WeaponConfig = *RowData;
 	}
+}
+
+void AAGFTWeapon::InitAmmoCount()
+{
+	MagAmmoCount = WeaponConfig.MagAmmoCapacity;
+	WeaponAmmoCount = MagAmmoCount * WeaponConfig.SpawnWithExtraMagazines;
 }
 
 void AAGFTWeapon::CooldownBetweenShotsExpired()
