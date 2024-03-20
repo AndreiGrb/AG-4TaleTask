@@ -11,6 +11,11 @@ void UAGFTHealthComponent::Revive()
 
 void UAGFTHealthComponent::ReceiveDamage(const float Damage, APlayerState* Instigator)
 {
+	if (bIsDead)
+	{
+		return;
+	}
+	
 	Health -= Damage;
 
 	if (Health < 1)
