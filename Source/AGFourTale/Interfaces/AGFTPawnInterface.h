@@ -5,6 +5,7 @@
 #include "AGFTPawnInterface.generated.h"
 
 
+class UAGFTHealthComponent;
 class AAGFTWeapon;
 
 UINTERFACE()
@@ -46,5 +47,5 @@ public:
 	virtual void ReloadWeaponAnimComplete();
 
 	//Check health of this pawn (if it has one)
-	virtual int32 GetCurrentHealth() const;
+	virtual UAGFTHealthComponent* GetHealthComponent() const;
 };

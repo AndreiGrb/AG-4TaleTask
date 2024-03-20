@@ -1,5 +1,6 @@
 ﻿#include "AGFTWidgetHUD.h"
 
+#include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/DamageSystem/AGFTWeapon.h"
 #include "AGFourTale/Design/AGFTGameSettings.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
@@ -145,6 +146,9 @@ void UAGFTWidgetHUD::UpdateHealth(const IAGFTPawnInterface* PawnInterface)
 		return;
 	}
 
-	const int32 Health = PawnInterface->GetCurrentHealth();
-	PB_Health->SetPercent(Health / 100.f);
+	if (const UAGFTHealthComponent* HealthComponent = PawnInterface->GetHealthComponent())
+	{
+		const int32 Health = HealthComponent->GetCurrentHealth();
+		PB_Health->SetPercent(Health / 100.f);
+	}
 }

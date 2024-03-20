@@ -6,7 +6,7 @@
 
 void AAGFTPlayerController::Server_DamageOtherActor_Implementation(AActor* OtherActor, int32 Damage)
 {
-	if (OtherActor->GetComponentByClass(UAGFTHealthSystem::StaticClass()))
+	if (OtherActor->GetComponentByClass(UAGFTHealthComponent::StaticClass()))
 	{
 		if (const auto OtherCharacter = Cast<AAGFTCharacter>(OtherActor))
 		{

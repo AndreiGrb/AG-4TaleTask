@@ -51,7 +51,7 @@ void IAGFTPawnInterface::ReloadWeaponAnimComplete()
 	//Override if pawn needs to receive this call from animation
 }
 
-int32 IAGFTPawnInterface::GetCurrentHealth() const
+UAGFTHealthComponent* IAGFTPawnInterface::GetHealthComponent() const
 {
-	return 0; //Override if pawn has a health value
+	return nullptr; //Override if pawn has a health component
 }

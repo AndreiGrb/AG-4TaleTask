@@ -82,6 +82,16 @@ void UAGFTAnimInstanceTPC::WeaponReloaded()
 	}
 }
 
+void UAGFTAnimInstanceTPC::PlayDeathAnimation()
+{
+	if (!ReloadWeaponMontage)
+	{
+		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlayReloadAnimation] ReloadWeaponMontage == nullptr"));
+	}
+	
+	Montage_Play(DeathMontage);
+}
+
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
 void UAGFTAnimInstanceTPC::MontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {

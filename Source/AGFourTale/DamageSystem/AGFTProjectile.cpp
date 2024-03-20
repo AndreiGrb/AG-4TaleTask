@@ -50,7 +50,7 @@ void AAGFTProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor*
 {
 	Destroy();
 
-	if (OtherActor->GetComponentByClass(UAGFTHealthSystem::StaticClass()))
+	if (OtherActor->GetComponentByClass(UAGFTHealthComponent::StaticClass()))
 	{
 		/**	todo: this whole part with direct casting of player controller
 		/*	and direct cast of AGFTCharacter inside of it is rushed,
