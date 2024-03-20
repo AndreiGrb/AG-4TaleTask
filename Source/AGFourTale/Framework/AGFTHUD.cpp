@@ -20,6 +20,7 @@ void AAGFTHUD::OpenLeaderboard()
 			LeaderboardWeakPtr.Get()->AddToViewport();
 			return;
 		}
+		return;
 	}
 	
 	if (const auto Leaderboard = CreateWidget<UAGFTLeaderboard>(GetWorld(), LeaderboardClass))
