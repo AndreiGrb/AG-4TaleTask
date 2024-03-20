@@ -5,6 +5,9 @@
 #include "AGFTPlayerController.generated.h"
 
 
+class UInputMappingContext;
+class UInputAction;
+
 UCLASS()
 class AGFOURTALE_API AAGFTPlayerController : public APlayerController
 {
@@ -28,6 +31,17 @@ private:
 	
 	virtual void EndPlayingState() override;
 
+
+	virtual void SetupInputComponent() override;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputMappingContext> InputMappingContext;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> LeaderboardAction;
+	
+	void OpenLeaderboard();
+	void CloseLeaderboard();
 
 	float MatchTimeRemaining;
 };

@@ -2,6 +2,9 @@
 
 #include "AGFTCharacter.h"
 #include "AGFTGameMode.h"
+#include "AGFTHUD.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
 #include "AGFourTale/Interfaces/AGFTPawnInterface.h"
 #include "GameFramework/PlayerState.h"
@@ -48,4 +51,30 @@ void AAGFTPlayerController::EndPlayingState()
 	{
 		PawnInterface->SetRemoteViewYaw(0.f);
 	}
+}
+
+void AAGFTPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	if (const auto Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(InputMappingContext, 0);
+	}
+
+	if (const auto EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		EnhancedInputComponent->BindAction(LeaderboardAction, ETriggerEvent::Started, this, &AAGFTPlayerController::OpenLeaderboard);
+		EnhancedInputComponent->BindAction(LeaderboardAction, ETriggerEvent::Completed, this, &AAGFTPlayerController::CloseLeaderboard);
+	}
+}
+
+void AAGFTPlayerController::OpenLeaderboard()
+{
+	Cast<AAGFTHUD>(GetHUD())->OpenLeaderboard();
+}
+
+void AAGFTPlayerController::CloseLeaderboard()
+{
+	Cast<AAGFTHUD>(GetHUD())->CloseLeaderboard();
 }

@@ -10,7 +10,6 @@
 class UAGFTHealthComponent;
 class USpringArmComponent;
 class UCameraComponent;
-class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
@@ -74,10 +73,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAGFTHealthComponent> HealthComponent;
-
 	
-	UPROPERTY(EditAnywhere, Category = Input)
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 	
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> JumpAction;
