@@ -1,5 +1,8 @@
 #include "AGFTGameMode.h"
 
+#include "AGFourTale/DamageSystem/AGFTHealthSystem.h"
+#include "AGFourTale/Interfaces/AGFTPawnInterface.h"
+
 
 void AAGFTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
@@ -23,4 +26,23 @@ void AAGFTGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	
+}
+
+APawn* AAGFTGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer,
+	const FTransform& SpawnTransform)
+{
+	APawn* SpawnedPawn = Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
+	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(SpawnedPawn))
+	{
+		if (PawnInterface->GetHealthComponent())
+		{
+			PawnInterface->GetHealthComponent()->OnDeath.AddDynamic(this, &AAGFTGameMode::PlayerDied);
+		}
+	}
+	return SpawnedPawn;
+}
+
+void AAGFTGameMode::PlayerDied(AActor* DeadActor, APlayerState* DamageInstigator)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, DeadActor->GetName());
 }

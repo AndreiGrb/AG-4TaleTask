@@ -16,6 +16,10 @@ private:
 	TArray<TWeakObjectPtr<APlayerController>> Players;
 
 	virtual void BeginPlay() override;
+	
+	virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) override;
 
 	
+	UFUNCTION()
+	void PlayerDied(AActor* DeadActor, APlayerState* DamageInstigator);
 };
