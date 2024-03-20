@@ -364,7 +364,7 @@ void AAGFTCharacter::ReloadWeaponAnimComplete()
 	bIsReloading = false;
 }
 
-void AAGFTCharacter::Death(APlayerState* DamageInstigator)
+void AAGFTCharacter::Death(AActor* DeadActor, APlayerState* DamageInstigator)
 {
 	if (IsLocallyControlled())
 	{

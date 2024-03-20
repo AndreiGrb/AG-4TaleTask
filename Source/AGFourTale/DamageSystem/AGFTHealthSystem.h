@@ -5,7 +5,7 @@
 #include "AGFTHealthSystem.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, APlayerState*, Instigator);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDeath, AActor*, DeadActor, APlayerState*, Instigator);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class AGFOURTALE_API UAGFTHealthComponent : public UActorComponent

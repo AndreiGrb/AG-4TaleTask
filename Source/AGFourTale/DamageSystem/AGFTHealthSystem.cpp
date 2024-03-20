@@ -18,7 +18,7 @@ void UAGFTHealthComponent::ReceiveDamage(const float Damage, APlayerState* Insti
 		bIsDead = true;
 		Killer = Instigator;
 		
-		OnDeath.Broadcast(Instigator);
+		OnDeath.Broadcast(Cast<AActor>(GetOuter()), Instigator);
 	}
 }
 

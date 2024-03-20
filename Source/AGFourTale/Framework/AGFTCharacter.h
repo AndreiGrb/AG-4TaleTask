@@ -186,7 +186,7 @@ private:
 	}
 
 	UFUNCTION()
-	void Death(APlayerState* DamageInstigator);
+	void Death(AActor* DeadActor, APlayerState* DamageInstigator);
 
 	UFUNCTION(Server, Reliable)
 	void Server_Death(APlayerState* DamageInstigator);
