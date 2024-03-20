@@ -20,12 +20,13 @@ public:
 	UPROPERTY(Replicated)
 	float RespawnDuration;
 
+
+	UFUNCTION()
+	void OnRep_MatchIsOver();
+
 private:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION()
 	void OnRep_MatchStarted();
-
-	UFUNCTION()
-	void OnRep_MatchIsOver();
 };

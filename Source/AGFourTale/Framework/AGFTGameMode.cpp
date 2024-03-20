@@ -71,7 +71,13 @@ void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 										&AAGFTGameMode::MatchIsOver,
 										WaitTimeAfterMatchIsOver);
 
+		const auto AGFTGameState = Cast<AAGFTGameState>(GameState);
 		GetGameState<AAGFTGameState>()->bMatchIsOver = true;
+
+		if (IsNetMode(NM_ListenServer))
+		{
+			AGFTGameState->OnRep_MatchIsOver();
+		}
 	}
 }
 
