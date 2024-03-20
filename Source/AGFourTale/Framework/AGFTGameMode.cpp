@@ -10,18 +10,29 @@ AAGFTGameMode::AAGFTGameMode()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void AAGFTGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	HandleRespawnTimers(DeltaSeconds);
+
+	HandleMatchProgress(DeltaSeconds);
+}
+
 void AAGFTGameMode::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
-	if (Players.Num() < 4) //Only support 4 players. Other players will be spectators
+	if (GetNumPlayers() > 1)
 	{
-		Players.Add(NewPlayer);
-	
+		bIsMatchStarted = true;
+	}
+	if (GetNumPlayers() < 4) //Only support 4 players. Other players will be spectators
+	{
 		Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 	}
 }
 
 APawn* AAGFTGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer,
-                                                                 const FTransform& SpawnTransform)
+																 const FTransform& SpawnTransform)
 {
 	APawn* SpawnedPawn = Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
 	if (const auto PawnInterface = Cast<IAGFTPawnInterface>(SpawnedPawn))
@@ -34,24 +45,29 @@ APawn* AAGFTGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* Ne
 	return SpawnedPawn;
 }
 
-void AAGFTGameMode::Logout(AController* Exiting)
+void AAGFTGameMode::HandleMatchProgress(float DeltaSeconds)
 {
-	Players.Remove(Cast<APlayerController>(Exiting));
-	
-	Super::Logout(Exiting);
+	if (!bIsMatchStarted)
+	{
+		return;
+	}
+		
+	DurationOfMatch -= DeltaSeconds;
+
+	if (DurationOfMatch < 0.f)
+	{
+		MatchIsOver();
+	}
 }
 
-void AAGFTGameMode::BeginPlay()
+void AAGFTGameMode::PlayerDied(AActor* DeadActor, APlayerState* DamageInstigator)
 {
-	Super::BeginPlay();
-
-	
+	APlayerState* PlayerState = Cast<APawn>(DeadActor)->GetPlayerState();
+	PlayersWaitingForRespawn.Add(PlayerState, RespawnTimer);
 }
 
-void AAGFTGameMode::Tick(float DeltaSeconds)
+void AAGFTGameMode::HandleRespawnTimers(const float DeltaSeconds)
 {
-	Super::Tick(DeltaSeconds);
-
 	for (auto It = PlayersWaitingForRespawn.CreateIterator(); It; ++It)
 	{
 		if (!IsValid(It->Key.Get()))
@@ -70,12 +86,6 @@ void AAGFTGameMode::Tick(float DeltaSeconds)
 	}
 }
 
-void AAGFTGameMode::PlayerDied(AActor* DeadActor, APlayerState* DamageInstigator)
-{
-	APlayerState* PlayerState = Cast<APawn>(DeadActor)->GetPlayerState();
-	PlayersWaitingForRespawn.Add(PlayerState, RespawnTimer);
-}
-
 void AAGFTGameMode::RespawnPlayer(const APlayerState* DeadPlayer)
 {
 	if (!IsValid(DeadPlayer))
@@ -91,4 +101,9 @@ void AAGFTGameMode::RespawnPlayer(const APlayerState* DeadPlayer)
 	}
 	
 	DeadPlayer->GetPawn()->SetActorLocation(PlayerStart->GetActorLocation());
+}
+
+void AAGFTGameMode::MatchIsOver()
+{
+	GetWorld()->ServerTravel("?Restart",false);
 }

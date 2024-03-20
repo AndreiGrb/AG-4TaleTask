@@ -9,4 +9,5 @@ UCLASS()
 class AGFOURTALE_API AAGFTPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+	
 };
