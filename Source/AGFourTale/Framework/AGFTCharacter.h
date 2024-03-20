@@ -162,4 +162,10 @@ private:
 	virtual void ReloadWeapon() override;
 
 	virtual void ReloadWeaponAnimComplete() override;
+
+	UFUNCTION(Server, Reliable)
+	void Server_ReloadWeapon();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_ReloadWeapon();
 };

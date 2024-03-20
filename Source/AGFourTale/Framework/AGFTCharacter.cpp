@@ -339,6 +339,8 @@ void AAGFTCharacter::ReloadWeaponPressed()
 	{
 		bIsReloading = true;
 		AnimInterface->PlayReloadAnimation();
+		
+		Server_ReloadWeapon();
 	}
 }
 
@@ -350,6 +352,24 @@ void AAGFTCharacter::ReloadWeapon()
 void AAGFTCharacter::ReloadWeaponAnimComplete()
 {
 	bIsReloading = false;
+}
+
+void AAGFTCharacter::Server_ReloadWeapon_Implementation()
+{
+	Multicast_ReloadWeapon();
+}
+
+void AAGFTCharacter::Multicast_ReloadWeapon_Implementation()
+{
+	if (IsLocallyControlled())
+	{
+		return;
+	}
+	
+	if (const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance()))
+	{
+		AnimInterface->PlayReloadAnimation();
+	}
 }
 
 void AAGFTCharacter::Server_SwitchWeapons_Implementation()
