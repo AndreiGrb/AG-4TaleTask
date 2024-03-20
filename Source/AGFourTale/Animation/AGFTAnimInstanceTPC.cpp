@@ -29,7 +29,7 @@ void UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation()
 {
 	if (!SwitchWeaponMontage)
 	{
-		UE_LOG(LogAnimation, Error, TEXT("SwitchWeaponMontage == nullptr"));
+		UE_LOG(LogAnimation, Error, TEXT("[UAGFTAnimInstanceTPC::PlaySwitchWeaponAnimation] SwitchWeaponMontage == nullptr"));
 	}
 	
 	if (Montage_IsPlaying(SwitchWeaponMontage) && !bIsWeaponSwitched)

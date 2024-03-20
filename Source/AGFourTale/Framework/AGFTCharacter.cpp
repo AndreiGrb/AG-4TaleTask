@@ -76,6 +76,8 @@ void AAGFTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Completed, this, &AAGFTCharacter::AimReleased);
 
 		EnhancedInputComponent->BindAction(SwitchWeaponAction, ETriggerEvent::Triggered, this, &AAGFTCharacter::SwitchWeaponsPressed);
+
+		EnhancedInputComponent->BindAction(ReloadWeaponAction, ETriggerEvent::Started, this, &AAGFTCharacter::ReloadWeaponPressed);
 	}
 	else
 	{
@@ -317,6 +319,26 @@ void AAGFTCharacter::SwitchWeapons()
 void AAGFTCharacter::WeaponSwitchAnimComplete()
 {
 	bCanShoot = true;
+}
+
+void AAGFTCharacter::ReloadWeaponPressed()
+{
+	AAGFTWeapon* CurrentWeapon = GetCurrentHoldingWeapon();
+	if (!IsValid(CurrentWeapon))
+	{
+		return;
+	}
+
+	const auto AnimInterface = Cast<IAGFTAnimInterface>(GetMesh()->GetAnimInstance())
+	if (!AnimInterface)
+	{
+		return;
+	}
+	
+	if (CurrentWeapon->CanReload())
+	{
+		AnimInterface->PlayReloadAnimation();
+	}
 }
 
 void AAGFTCharacter::Server_SwitchWeapons_Implementation()
